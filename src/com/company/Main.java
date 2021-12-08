@@ -1,9 +1,15 @@
 package com.company;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.time.LocalDate;
 
 import java.time.format.DateTimeFormatter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.io.IOException;
 
@@ -102,6 +108,7 @@ public class Main {
                 int weeks_input = scanner.nextInt();
                 int final_days = weeks_input*7;
                 LocalDate day_diff2 = end.minusDays(final_days);
+
             }
         }
 
@@ -109,16 +116,29 @@ public class Main {
 
 
 
+        //Data reader:
+        String address = "covid-data.csv";
+        String line ;
+        int count = 0;
+        try {
+            BufferedReader br  = new BufferedReader(new FileReader(address));
+            while ((line = br.readLine()) !=null ){
+                String [] values = line.split(",");
+                List<String > al = Arrays.asList(values);
+                if (al.contains("Asia")){
+                    System.out.println(al.get(2));
+                    count +=1;
+                }
+            }
+            System.out.println(count);
+        }
+        catch (IOException e) {
+            e.printStackTrace(); }
 
 
-
-
-
-
-
-
-        Data data = new Data(area,days);
-        data.Data_division();
+//
+//        Data data = new Data(area,days);
+//        data.Data_division();
 
     }
 
