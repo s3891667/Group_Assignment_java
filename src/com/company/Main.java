@@ -40,8 +40,8 @@ public class Main {
         System.out.println("Choose 2 for A number of days or weeks from a particular date ");
         System.out.println("Choose 3 for A number of days or weeks to a particular date");
         int user3 = scanner.nextInt();
-
-
+        
+        // the variable days will be used for grouping
         //Type 1
         if (user3 == 1) {
             init = init_date();
