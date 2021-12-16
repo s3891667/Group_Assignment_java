@@ -1,130 +1,323 @@
 package com.company;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args){
-        LocalDate init = null, end = null;
-        int days;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Do you want to start the program (Y/N) ?");
+    private static LocalDate startDate;
+    private static LocalDate endDate;
 
-        char user = scanner.next().charAt(0);
+    public static void main(String[] args) {
+        int num;        // data object type (e.g, Country = 1, Continent = 2)
+        int rangeNum;   // time range type
+        int weekDays;   // the number of days or weeks
+        int groupType;   // number of groups = 1, number of days = 2
+        int groupDay;
+        int selectNum;
+        int metricsNum;
+        String line;
+        char user;
 
-        if (user == 'Y') {
-            System.out.println("Welcome!");
-        }
-        else if (user =='N') {
-            System.out.println("Thank you for using our program!");
+        List<List<String>> printList = new ArrayList<>();
+        List<List<String>> tmpList = new ArrayList<>();
 
-        }
-        else {
-            System.out.println("Please enter again");
-        }
+        Scanner scanInt = new Scanner(System.in);
+        Scanner scanString = new Scanner(System.in);
 
-        System.out.println("Please choose 1 to input Continent, 2 to input Country ");
-        int user2 = scanner.nextInt();
-        if (user2 ==1){
-            System.out.println("Please input the Continent  ");
-        }
-        else if(user2 == 2) {
-            System.out.println("Please input the country");
-        }
+        List<List<String>> data = new ArrayList<>();
+        File file = new File("src\\covid-data.csv");
 
-        //Area
-        String area = scanner.next();
-        System.out.println("Please choose the time rage type");
-        System.out.println("Choose 1 for A pair of start date and end date (inclusive)");
-        System.out.println("Choose 2 for A number of days or weeks from a particular date ");
-        System.out.println("Choose 3 for A number of days or weeks to a particular date");
-        int user3 = scanner.nextInt();
-        
-        // the variable days will be used for grouping
-        //Type 1
-        if (user3 == 1) {
-            init = init_date();
-            end = end_date();
-            days = (int) ChronoUnit.DAYS.between(init,end);
+
+        try {       // get data from covid-data.csv
+            FileReader fileName = new FileReader(file.getCanonicalPath());
+            BufferedReader br = new BufferedReader(fileName);
+
+            while ((line = br.readLine()) != null) {
+
+                String[] array = line.split(",");
+                List<String> temp = Arrays.asList(array);
+                data.add(temp);
+
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        //Type 2
-        else if (user3 == 2) {
-            init = init_date();
-            System.out.println("Enter 1 for days , 2 for weeks");
-            int user4 = scanner.nextInt();
-            if (user4 ==1){
-                days = get_day();
-                end = init.plusDays(days);
+        while (true) {
+            startDate = null;   // initialize Date variable when loop begins
+            endDate = null;
+            rangeNum = 0;
+            selectNum = 0;
+            groupDay = 0;
+
+            System.out.print("Do you want to start the program? (Y/N) ");
+
+            user = scanString.nextLine().charAt(0);
+
+            if (user == 'Y') {
+                System.out.print("Please choose number 1 to input Continent, number 2 to input Country: ");
+                num = scanInt.nextInt();
+
+                System.out.println("\nPlease choose the time range type");
+                System.out.println("Choose 1 for A pair of start date and end date(inclusive)");
+                System.out.println("Choose 2 for A number of days or weeks from a particular date");
+                System.out.println("Choose 3 for A number of days or weeks to a particular date");
+
+                rangeNum = scanInt.nextInt();
+
+                if (rangeNum == 1) {
+                    String start;
+                    String end;
+
+                    System.out.println("\nStart date: ");
+                    start = scanString.nextLine();
+
+                    System.out.println("End date: ");
+                    end = scanString.nextLine();
+
+                    startDate = changeFormat(start);
+                    endDate = changeFormat(end);
+
+                } else if (rangeNum == 2) {
+                    String start;
+
+                    System.out.println("\nEnter 1 for days, 2 for weeks: ");
+                    selectNum = scanInt.nextInt();
+
+                    if (selectNum == 1) {
+                        System.out.println("\nStart date: ");
+                        start = scanString.nextLine();
+
+                        System.out.println("A number of days: ");
+                        weekDays = scanInt.nextInt();
+
+                        startDate = changeFormat(start);
+                        endDate = changeFormat(start).plusDays(weekDays);
+
+                    } else if (selectNum == 2) {
+                        System.out.println("\nStart date: ");
+                        start = scanString.nextLine();
+
+                        System.out.println("A number of weeks: ");
+                        weekDays = scanInt.nextInt();
+
+                        startDate = changeFormat(start);
+                        endDate = changeFormat(start).plusWeeks(weekDays);
+
+                    }
+
+
+                } else if (rangeNum == 3) {
+                    String start;
+
+                    System.out.println("\nEnter 1 for days, 2 for weeks: ");
+                    selectNum = scanInt.nextInt();
+
+                    if (selectNum == 1) {
+                        System.out.println("\nStart date: ");
+                        start = scanString.nextLine();
+
+                        System.out.println("A number of days: ");
+                        weekDays = scanInt.nextInt();
+
+                        endDate = changeFormat(start);
+                        startDate = changeFormat(start).minusDays(weekDays);
+
+                    } else if (selectNum == 2) {
+                        System.out.println("\nStart date: ");
+                        start = scanString.nextLine();
+
+                        System.out.println("A number of weeks: ");
+                        weekDays = scanInt.nextInt();
+
+                        endDate = changeFormat(start);
+                        startDate = changeFormat(start).minusWeeks(weekDays);
+
+                    }
+
+                }
+
+                System.out.println("\nChoose 1 for divide data into number of groups, 2 for number of days: ");
+                groupType = scanInt.nextInt();
+
+
+                if (groupType == 1) {
+                    System.out.println("Please input a number of groups: ");
+                    groupDay = scanInt.nextInt();
+                } else if (groupType == 2) {
+                    System.out.println("Please input a number of days: ");
+                    groupDay = scanInt.nextInt();
+                }
+
+                System.out.println("\nChoose 1 for positive cases, 2 for deaths, 3 for people vaccinated");
+                metricsNum = scanInt.nextInt() + 3;
+
+                System.out.println("\nChoose 1 for New Total, 2 for Up To ");
+
+
+                if (num == 1) {
+                    String continent;
+
+                    System.out.print("\nPlease input the Continent: ");
+                    continent = scanString.nextLine();
+
+                    tmpList = dataProcess(data, continent, num);
+
+                    printList = dataGroup(tmpList, groupType, groupDay, metricsNum);
+
+
+                } else if (num == 2) {
+                    String country;
+
+                    System.out.print("\nPlease input the Country: ");
+                    country = scanString.nextLine();
+
+                    tmpList = dataProcess(data, country, num);
+
+                    printList = dataGroup(tmpList, groupType, groupDay, metricsNum);
+
+                }
+
+            } else if (user == 'N') {
+                System.out.println("\nThank you for using our program!\n");
+                break;
+            } else System.out.println("Please enter again");
+
+        }
+    }
+
+    public static LocalDate changeFormat(String date) {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("M/d/yyyy");
+        return LocalDate.parse(date, format);
+    }
+
+    public static boolean validateRange(LocalDate start, LocalDate end, LocalDate date) {
+        return start.compareTo(date) <= 0 && end.compareTo(date) >= 0;
+    }
+
+    public static List<List<String>> dataProcess(List<List<String>> data, String continent, int num) {
+        LocalDate date;
+        List<List<String>> tempList = new ArrayList<>();
+
+        if (num == 1) {
+            for (int i = 1; i < data.size(); i++) {
+                date = changeFormat(data.get(i).get(3));
+                if (validateRange(startDate, endDate, date) && data.get(i).get(1).equals(continent)) {
+                    List<String> tmp = data.get(i);
+                    tempList.add(tmp);
+                }
             }
 
-            else if (user4 == 2) {
-                int weeks_input = get_week();
-                days = weeks_input*7;
-                end = init.plusDays(days);
+        } else if (num == 2) {
+            for (int i = 1; i < data.size(); i++) {
+                date = changeFormat(data.get(i).get(3));
+                if (validateRange(startDate, endDate, date) && data.get(i).get(2).equals(continent)) {
+                    List<String> tmp = data.get(i);
+                    tempList.add(tmp);
+                }
             }
         }
 
-        //Type 3
-        else if (user3 == 3) {
-            end = end_date();
-            System.out.println("Enter 1 for days , 2 for weeks");
-            int user5 = scanner.nextInt();
-            if (user5 == 1) {
-                days = get_day() ;
-                init = end.minusDays(days);
+        return tempList;
+    }
+
+    public static List<List<String>> dataGroup(List<List<String>> tmpList, int groupType, int groupDay, int metricsNum) {
+        List<String> tmp = new ArrayList<>();
+        List<List<String>> alist = new ArrayList<>();
+
+        if (groupType == 1) {
+            int elementNum = tmpList.size() / groupDay;
+            int remainder = tmpList.size() % groupDay;
+
+//            if(metricsNum == 6) {
+//                for (int i = 0; i < tmpList.size(); i++) {
+//                    String data = tmpList.get(i).subList(metricsNum, metricsNum + 1).get(0);
+//
+//                    if(!data.equals("")) {
+//                        tmp.add(data);
+//                    }
+//
+//                    if (tmp.size() == elementNum && alist.size() < groupDay - remainder) {
+//                        alist.add(tmp);
+//                        tmp = new ArrayList<>();
+//                    } else if (tmp.size() == elementNum && alist.size() >= groupDay - remainder && !tmpList.get(i+1).subList(metricsNum, metricsNum + 1).equals("")) {
+//                        tmp.add(tmpList.get(++i).subList(metricsNum, metricsNum + 1).get(0));
+//                        alist.add(tmp);
+//                        tmp = new ArrayList<>();
+//                    }
+//                }
+//
+//                for (List<String> string : alist) {
+//                    int total = 0;
+//                    for(String num : string) {
+//                        total += Integer.parseInt(num);
+//                    }
+//                    System.out.print(string + "  ");
+//                    string.clear();
+//                    string.add(Integer.toString(total));
+//                    System.out.println(string);
+//                }
+//            }
+
+            for (int i = 0; i < tmpList.size(); i++) {
+                String data = tmpList.get(i).subList(metricsNum, metricsNum + 1).get(0);
+
+                if(!data.equals("")) {
+                    tmp.add(data);
+                }
+
+                if (tmp.size() == elementNum && alist.size() < groupDay - remainder) {
+                    alist.add(tmp);
+                    tmp = new ArrayList<>();
+                } else if (tmp.size() == elementNum && alist.size() >= groupDay - remainder && !tmpList.get(i+1).subList(metricsNum, metricsNum + 1).equals("")) {
+                    tmp.add(tmpList.get(++i).subList(metricsNum, metricsNum + 1).get(0));
+                    alist.add(tmp);
+                    tmp = new ArrayList<>();
+                }
             }
-            else if (user5 ==2) {
-                int weeks_input = get_week();
-                days = weeks_input*7;
-                init = end.minusDays(days);
+
+            for (List<String> string : alist) {
+                int total = 0;
+                for(String num : string) {
+                    total += Integer.parseInt(num);
+                }
+                System.out.print(string + "  ");
+                string.clear();
+                string.add(Integer.toString(total));
+                System.out.println(string);
             }
+
+
         }
-
-        Data start = new Data(area,init,end);
-        start.Querying_method(area,init,end);
-        System.out.println(start.get_cases());
-        System.out.println(start.get_deaths());
-        System.out.println(start.get_vaccinated());
+//        else if (groupType == 2) {
+//
+//            if(tmpList.size() % groupDay != 0) {
+//                System.out.println("ERROR: Can't divide groups equally!");
+//            }
+//
+//            else {
+//                for (List<String> strings : tmpList) {
+//                    tmp.add(strings.subList(metricsNum, metricsNum+1));
+//
+//                    if (tmp.size() == groupDay) {
+//                        printList.add(tmp);
+//                        tmp = new ArrayList<>();
+//                    }
+//                }
+//            }
+//        }
+        return alist;
     }
 
-    public static LocalDate init_date() {
-        String startDate1;
-        LocalDate init;
-
-        Scanner sc = new Scanner(System.in);
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-
-        System.out.print("Start date: ");
-        startDate1 = sc.nextLine();
-        init = LocalDate.parse(startDate1,format);
-        return init;
-    }
 
 
-    public static LocalDate end_date() {
-        String endDate1;
-        LocalDate end;
 
-        Scanner sc = new Scanner(System.in);
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-
-        System.out.print("End date: ");
-        endDate1 = sc.nextLine();
-        end = LocalDate.parse(endDate1,format);
-        return end;
-    }
-
-    public static int get_day() {
-        System.out.println("Enter number of days");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
-    }
-
-    public static int get_week() {
-        System.out.println("Enter number of weeks");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
-    }
 }
+
+
+
