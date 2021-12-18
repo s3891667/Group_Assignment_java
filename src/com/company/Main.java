@@ -144,7 +144,9 @@ public class Main {
 
                     }
 
+
                 }
+
 
                 System.out.println("\nChoose 1 for no grouping, Choose 2 for divide data into number of groups, 3 for number of days: ");
                 groupType = scanInt.nextInt();
@@ -167,26 +169,21 @@ public class Main {
                 resultType = scanInt.nextInt();
 
                 if (num == 1) {
-                    String continent;
-
                     System.out.print("\nPlease input the Continent: ");
                     area = scanString.nextLine();
-
                     tmpList = dataProcess(data, area, num);
 
-                    dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
-
                 } else if (num == 2) {
-                    String contry;
-
                     System.out.print("\nPlease input the Country: ");
                     area = scanString.nextLine();
 
                     tmpList = dataProcess(data, area, num);
-
-                    dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
-
                 }
+
+
+                Data data1 = new Data(startDate,tmpList,groupType,groupDay,metricsNum,resultType);
+                data1.dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
+
 
             } else if (user == 'N') {
                 System.out.println("\nThank you for using our program!\n");
@@ -231,209 +228,7 @@ public class Main {
         return tempList;
     }
 
-    public static void dataGroup(List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType) {
-        List<String> tmp = new ArrayList<>();
-        List<List<String>> finalList = new ArrayList<>();
 
-
-        if (groupType == 1 ){
-            LocalDate update = startDate;
-            for(int i = 0 ; i < tmpList.size(); i++ ){
-                String data = tmpList.get(i).subList(metricsNum, metricsNum + 1).get(0);
-                if (!data.equals("")) {
-                    tmp.add(data);
-                } else {
-                    tmp.add("0");
-                }
-                System.out.println("day " +update.plusDays(i).getDayOfMonth()+" : " + tmp.get(i));
-            }
-            finalList.add(tmp);
-
-        }
-        else if (groupType == 2) {
-            int elementNum = tmpList.size() / groupDay;
-            int remainder = tmpList.size() % groupDay;
-
-            for (int i = 0; i < tmpList.size(); i++) {
-                String data = tmpList.get(i).subList(metricsNum, metricsNum + 1).get(0);
-
-                if (!data.equals("")) {
-                    tmp.add(data);
-                } else {
-                    tmp.add("0");
-                }
-
-                if (tmp.size() == elementNum && finalList.size() < groupDay - remainder) {
-                    finalList.add(tmp);
-                    tmp = new ArrayList<>();
-                } else if (tmp.size() == elementNum && finalList.size() >= groupDay - remainder && !tmpList.get(i + 1).subList(metricsNum, metricsNum + 1).get(0).equals("")) {
-                    tmp.add(tmpList.get(++i).subList(metricsNum, metricsNum + 1).get(0));
-                    finalList.add(tmp);
-                    tmp = new ArrayList<>();
-                } else if (tmp.size() == elementNum && finalList.size() >= groupDay - remainder && tmpList.get(i + 1).subList(metricsNum, metricsNum + 1).get(0).equals("")) {
-                    tmp.add("0");
-                    i++;
-                    finalList.add(tmp);
-                    tmp = new ArrayList<>();
-
-                }
-
-            }
-
-            if (metricsNum == 4 || metricsNum == 5) {
-                if (resultType == 1) {
-                    for (List<String> string : finalList) {
-                        int total = 0;
-                        for (String num : string) {
-                            int number = Integer.parseInt(num);
-                            if (number != 0) {
-                                total += number;
-                            }
-                        }
-                        System.out.print(string + "  ");
-                        string.clear();
-                        string.add(Integer.toString(total));
-                        System.out.println(string);
-                    }
-                } else if (resultType == 2) {
-                    int total = 0;
-                    for (List<String> string : finalList) {
-                        for (String num : string) {
-                            int number = Integer.parseInt(num);
-                            if (number != 0) {
-                                total += number;
-                            }
-                        }
-                    }
-
-                    System.out.println("Death total: " + total);
-                }
-            } else if (metricsNum == 6) {
-                if (resultType == 1) {               // calculate New total
-                    int vaccinatedNum = 0;
-
-                    for (List<String> string : finalList) {
-                        int total = 0;
-                        for (String num : string) {
-                            int nowVaccinated = Integer.parseInt(num);
-                            if (nowVaccinated != 0) {
-                                total += nowVaccinated - vaccinatedNum;
-                                vaccinatedNum = nowVaccinated;
-                            }
-                        }
-                        System.out.print(string + "  ");
-                        string.clear();
-                        string.add(Integer.toString(total));
-                        System.out.println(string + " ");
-                    }
-
-                } else if (resultType == 2) {          // calculate from beginning up to last group
-                    int vaccinatedNum = 0;
-                    int total = 0;
-
-                    for (List<String> string : finalList) {
-                        for (String num : string) {
-                            int nowVaccinated = Integer.parseInt(num);
-                            if (nowVaccinated != 0) {
-                                total += nowVaccinated - vaccinatedNum;
-                                vaccinatedNum = nowVaccinated;
-                            }
-                        }
-                    }
-                    System.out.println("Vaccinated total: " + total);
-               }
-
-            }
-        } else if (groupType == 3) {
-
-            if (tmpList.size() % groupDay != 0) {
-                System.out.println("ERROR: Can't divide groups equally!");
-            } else {
-                int elementNum = tmpList.size() / groupDay;
-
-                for (int i = 0; i < tmpList.size(); i++) {
-                    String data = tmpList.get(i).subList(metricsNum, metricsNum + 1).get(0);
-
-                    if (!data.equals("")) {
-                        tmp.add(data);
-                    } else {
-                        tmp.add("0");
-                    }
-
-                    if (tmp.size() == elementNum) {
-                        finalList.add(tmp);
-                        tmp = new ArrayList<>();
-                    }
-
-                }
-
-                if (metricsNum == 4 || metricsNum == 5) {
-                    if (resultType == 1) {
-                        for (List<String> string : finalList) {
-                            int total = 0;
-                            for (String num : string) {
-                                int number = Integer.parseInt(num);
-                                if (number != 0) {
-                                    total += number;
-                                }
-                            }
-                            System.out.print(string + "  ");
-                            string.clear();
-                            string.add(Integer.toString(total));
-                            System.out.println(string);
-                        }
-                    } else if (resultType == 2) {
-                        int total = 0;
-                        for (List<String> string : finalList) {
-                            for (String num : string) {
-                                int number = Integer.parseInt(num);
-                                if (number != 0) {
-                                    total += number;
-                                }
-                            }
-                        }
-
-                        System.out.println("Death total: " + total);
-                    }
-                } else if (metricsNum == 6) {
-                    if (resultType == 1) {               // calculate New total
-                        int vaccinatedNum = 0;
-
-                        for (List<String> string : finalList) {
-                            int total = 0;
-                            for (String num : string) {
-                                int nowVaccinated = Integer.parseInt(num);
-                                if (nowVaccinated != 0) {
-                                    total += nowVaccinated - vaccinatedNum;
-                                    vaccinatedNum = nowVaccinated;
-                                }
-                            }
-                            System.out.print(string + "  ");
-                            string.clear();
-                            string.add(Integer.toString(total));
-                            System.out.println(string + " ");
-                        }
-
-                    } else if (resultType == 2) {          // calculate from beginning up to last group
-                        int vaccinatedNum = 0;
-                        int total = 0;
-
-                        for (List<String> string : finalList) {
-                            for (String num : string) {
-                                int nowVaccinated = Integer.parseInt(num);
-                                if (nowVaccinated != 0) {
-                                    total += nowVaccinated - vaccinatedNum;
-                                    vaccinatedNum = nowVaccinated;
-                                }
-                            }
-                        }
-                        System.out.println("Vaccinated total: " + total);
-                    }
-
-                }
-            }
-        }
-    }
 }
 
 
