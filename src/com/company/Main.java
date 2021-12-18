@@ -389,7 +389,7 @@ public class Main {
 
                             for (String num : string) {
                                 int nowVaccinated = Integer.parseInt(num);
-                                if(nowVaccinated != 0) {
+                                if (nowVaccinated != 0) {
                                     total += nowVaccinated - vaccinatedNum;
                                     vaccinatedNum = nowVaccinated;
                                 }
