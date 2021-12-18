@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d5baa29b-880a-4315-af91-67edaa3376ff" name="Changes" comment="new total,up to(Maybe number of days doesn't work. i'll fix it)">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/company/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -75,6 +76,8 @@
       <workItem from="1639741143994" duration="609000" />
       <workItem from="1639753142532" duration="693000" />
       <workItem from="1639805187365" duration="49000" />
+      <workItem from="1639842305041" duration="912000" />
+      <workItem from="1639846940632" duration="972000" />
     </task>
     <task id="LOCAL-00001" summary="code organization/total calculation of infection,death data">
       <created>1639645474567</created>
@@ -90,7 +93,28 @@
       <option name="project" value="LOCAL" />
       <updated>1639654120268</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="new total,up to(Maybe number of days doesn't work. i'll fix it)">
+      <created>1639842400013</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1639842400013</updated>
+    </task>
+    <task id="LOCAL-00004" summary="new total,up to(Maybe number of days doesn't work. i'll fix it)">
+      <created>1639842420204</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1639842420204</updated>
+    </task>
+    <task id="LOCAL-00005" summary="new total,up to(Maybe number of days doesn't work. i'll fix it)">
+      <created>1639842513431</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1639842513431</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
