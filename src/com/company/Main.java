@@ -1,5 +1,6 @@
 package com.company;
 
+package com.company;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -171,7 +172,7 @@ public class Main {
 
                     tmpList = dataProcess(data, area, num);
 
-                    printList = dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
+                    dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
 
                 } else if (num == 2) {
 
@@ -180,7 +181,7 @@ public class Main {
 
                     tmpList = dataProcess(data, area, num);
 
-                    printList = dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
+                    dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
 
                 }
 
@@ -441,19 +442,34 @@ public class Main {
             if(tmpList.size() % groupDay != 0) {
                 System.out.println("ERROR: Can't divide groups equally!"); }
             else {
-                for (List<String> strings : tmpList) {
-                    tmp.add(strings.subList(metricsNum, metricsNum+1).get(0));
-                    if (tmp.size() == groupDay) {
+                int elementNum = tmpList.size() / groupDay;
+
+                for (int i = 0; i < tmpList.size(); i++) {
+                    String data = tmpList.get(i).subList(metricsNum, metricsNum + 1).get(0);
+                    if (!data.equals("")) {
+                        tmp.add(data);
+                    } else {
+                        tmp.add("0");
+                    }
+
+                    if (tmp.size() == elementNum) {
                         finalList.add(tmp);
                         tmp = new ArrayList<>();
                     }
+
                 }
+
+                //else {
+                //                for (List<String> strings : tmpList) {
+                //                    tmp.add(strings.subList(metricsNum, metricsNum+1).get(0));
+                //                    if (tmp.size() == groupDay) {
+                //                        finalList.add(tmp);
+                //                        tmp = new ArrayList<>();
             }
         }
         return finalList;
     }
 }
-
 
 
 
