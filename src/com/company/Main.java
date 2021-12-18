@@ -340,7 +340,7 @@ public class Main {
                         }
                     }
                     System.out.println("Vaccinated total: " + total);
-                }
+               }
 
             }
         } else if (groupType == 3) {
