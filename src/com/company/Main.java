@@ -183,9 +183,9 @@ public class Main {
 
                 Data data1 = new Data(startDate,tmpList,groupType,groupDay,metricsNum,resultType);
                 data1.dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
+            }
 
-
-            } else if (user == 'N') {
+            else if (user == 'N') {
                 System.out.println("\nThank you for using our program!\n");
                 break;
             } else System.out.println("Please enter again");

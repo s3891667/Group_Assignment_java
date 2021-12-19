@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d5baa29b-880a-4315-af91-67edaa3376ff" name="Changes" comment="new total,up to(Maybe number of days doesn't work. i'll fix it)">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-12-19__12_46__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-12-19__12_46__Changes_.xml" afterDir="false" />
+    <list default="true" id="d5baa29b-880a-4315-af91-67edaa3376ff" name="Changes" comment="Bring method -&gt; Data.java">
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/company/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Data.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/company/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Main.java" afterDir="false" />
@@ -71,6 +70,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -87,17 +87,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -123,6 +112,10 @@
       <workItem from="1639805187365" duration="49000" />
       <workItem from="1639842305041" duration="912000" />
       <workItem from="1639846940632" duration="972000" />
+      <workItem from="1639894623578" duration="9748000" />
+      <workItem from="1639911707136" duration="4857000" />
+      <workItem from="1639919820350" duration="1690000" />
+      <workItem from="1639929305337" duration="298000" />
     </task>
     <task id="LOCAL-00001" summary="code organization/total calculation of infection,death data">
       <created>1639645474567</created>
@@ -159,7 +152,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639842513431</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Bring method -&gt; Data.java">
+      <created>1639854165666</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1639854165666</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -192,6 +192,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="code organization/total calculation of infection,death data" />
     <MESSAGE value="new total,up to(Maybe number of days doesn't work. i'll fix it)" />
-    <option name="LAST_COMMIT_MESSAGE" value="new total,up to(Maybe number of days doesn't work. i'll fix it)" />
+    <MESSAGE value="Bring method -&gt; Data.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bring method -&gt; Data.java" />
   </component>
 </project>
