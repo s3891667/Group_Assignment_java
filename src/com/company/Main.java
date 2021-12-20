@@ -20,9 +20,8 @@ public class Main {
         int resultType;
         String line;
         char user;
-        String area = null;
+        String area;
 
-        List<List<String>> printList = new ArrayList<>();
         List<List<String>> tmpList = new ArrayList<>();
 
         Scanner scanInt = new Scanner(System.in);
@@ -52,21 +51,29 @@ public class Main {
         while (true) {
             startDate = null;   // initialize Date variable when loop begins
             endDate = null;
-            printList.clear();
             tmpList.clear();
-            rangeNum = 0;
-            selectNum = 0;
             groupDay = 0;
-            metricsNum = 0;
 
             System.out.print("Do you want to start the program? (Y/N) ");
 
             user = scanMain.nextLine().charAt(0);
 
             if (user == 'Y') {
+                System.out.println("|-----------------------------------------------|");
+                System.out.println("|          Welcome to Data management           |");
+                System.out.println("|-----------------------------------------------|");
+                System.out.println();
                 System.out.print("Please choose number 1 to input Continent, number 2 to input Country: ");
-                num = scanInt.nextInt();
 
+                num = scanInt.nextInt();
+                if (num == 1) {
+                    System.out.print("\nPlease input the Continent: ");
+                } else if (num == 2) {
+                    System.out.print("\nPlease input the Country: ");
+                }
+                area = scanString.nextLine();
+
+                System.out.println("-------------------------------------------------");
                 System.out.println("\nPlease choose the time range type");
                 System.out.println("Choose 1 for A pair of start date and end date(inclusive)");
                 System.out.println("Choose 2 for A number of days or weeks from a particular date");
@@ -168,21 +175,10 @@ public class Main {
                 System.out.println("\nChoose 1 for New Total, 2 for Up To ");
                 resultType = scanInt.nextInt();
 
-                if (num == 1) {
-                    System.out.print("\nPlease input the Continent: ");
-                    area = scanString.nextLine();
-                    tmpList = dataProcess(data, area, num);
 
-                } else if (num == 2) {
-                    System.out.print("\nPlease input the Country: ");
-                    area = scanString.nextLine();
-
-                    tmpList = dataProcess(data, area, num);
-                }
-
-
+                tmpList = dataProcess(data, area, num);
                 Data data1 = new Data(startDate,tmpList,groupType,groupDay,metricsNum,resultType);
-                data1.dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
+                data1.dataGroup();
             }
 
             else if (user == 'N') {

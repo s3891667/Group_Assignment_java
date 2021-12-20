@@ -8,6 +8,10 @@ public class Data extends Main{
     private final List<List<String>> tmpList;
     int groupType, groupDay, metricsNum,resultType;
     List<List<String>> finalList = new ArrayList<>();
+    int total = 0;
+    List<String> tmp = new ArrayList<>();
+    LocalDate update;
+
 
     public Data( LocalDate startDate, List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType ) {
         this.startDate = startDate;
@@ -19,13 +23,12 @@ public class Data extends Main{
     }
 
 
-    public void dataGroup(List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType) {
-        List<String> tmp = new ArrayList<>();
-        int total = 0;
-        LocalDate update;
+    public void dataGroup() {
+
         if (groupType == 1 ){
             update = startDate;
-            filling_blanks(tmpList,tmp,metricsNum);
+            data_display.filling_blanks(tmpList,tmp,metricsNum);
+
             finalList.add(tmp);
             for(int i = 0 ; i < tmpList.size(); i++ ) {
                 System.out.println("day " + update.plusDays(i).getDayOfMonth() + " : " + tmp.get(i));
@@ -36,14 +39,14 @@ public class Data extends Main{
                 }
                 else if(resultType == 2){
 
-                    System.out.println("Total infected : " + Looping_final_list_type2(finalList));
+                    System.out.println("Total infected : " + data_display.Looping_final_list_type2(finalList,total));
                 }
             }
             else if (metricsNum == 5) {
                 if (resultType == 1) {               // calculate New total
                     System.out.println(finalList);
                 } else if (resultType == 2) {
-                    System.out.println("Death total: " + Looping_final_list_type2(finalList));
+                    System.out.println("Death total: " + data_display.Looping_final_list_type2(finalList,total));
                 }
 
             }
@@ -53,12 +56,11 @@ public class Data extends Main{
                     System.out.println(finalList);
                 }
                 else if(resultType == 2) {// calculate from beginning up to last group
-                        System.out.println("Vaccinated total: " + Looping_final_list_type2(finalList));
+                        System.out.println("Vaccinated total: " + data_display.Looping_final_list_type2(finalList,total));
                 }
 
                 }
             }
-
 
 
         else if (groupType == 2) {
@@ -88,17 +90,19 @@ public class Data extends Main{
 
             if (metricsNum == 4) {
                 if (resultType == 1) {
-                    Looping_final_list_type1(finalList);
+                    data_display.Looping_final_list_type1(finalList,total);
                 } else if (resultType == 2) {
-                    System.out.println("Total infected: " + Looping_final_list_type2(finalList));
+                    data_display.Looping_final_list_type1(finalList,total);
+                    System.out.println("Total infected: " + data_display.Looping_final_list_type2(finalList,total));
                 }
             }
 
             else if(metricsNum == 5 ){
                 if (resultType == 1) {
-                    Looping_final_list_type1(finalList);
+                    data_display.Looping_final_list_type1(finalList,total);
                 } else if (resultType == 2) {
-                    System.out.println("Death total: " + Looping_final_list_type2(finalList));
+                    data_display.Looping_final_list_type1(finalList,total);
+                    System.out.println("Death total: " + data_display.Looping_final_list_type2(finalList,total));
                 }
 
             }
@@ -107,10 +111,11 @@ public class Data extends Main{
             else if (metricsNum == 6) {
 
                 if (resultType == 1) {               // calculate New total
-                    Looping_final_list_type1(finalList);
+                    data_display.Looping_final_list_type1(finalList,total);
 
                 } else if (resultType == 2) {          // calculate from beginning up to last group
-                    System.out.println("Vaccinated total: " + Looping_final_list_type2(finalList));
+                   data_display.Looping_final_list_type1(finalList,total);
+                    System.out.println("Vaccinated total: " + data_display.Looping_final_list_type2(finalList,total));
                 }
 
             }
@@ -134,30 +139,33 @@ public class Data extends Main{
                         finalList.add(tmp);
                         tmp = new ArrayList<>();
                     }
+
                 }
 
                 if(metricsNum == 4){
                     if (resultType == 1) {
-                        Looping_final_list_type1(finalList);
+                        data_display.Looping_final_list_type1(finalList,total);
                     } else if (resultType == 2) {
-                        System.out.println("Total infected: " + Looping_final_list_type2(finalList));
+                        System.out.println("Total infected: " + data_display.Looping_final_list_type2(finalList,total));
                     }
                 }
 
                 else if (metricsNum == 5) {
                     if (resultType == 1) {
-                        Looping_final_list_type1(finalList);
+                        data_display.Looping_final_list_type1(finalList,total);
                     } else if (resultType == 2) {
-                        System.out.println("Death total: " + Looping_final_list_type2(finalList));
+                        data_display.Looping_final_list_type1(finalList,total);
+                        System.out.println("Death total: " + data_display.Looping_final_list_type2(finalList,total));
                     }
                 }
 
                 else if (metricsNum == 6) {
                     if (resultType == 1) {               // calculate New total
-                        Looping_final_list_type1(finalList);
+                        data_display.Looping_final_list_type1(finalList,total);
 
                     } else if (resultType == 2) {          // calculate from beginning up to last group
-                        System.out.println("Vaccinated total: " + Looping_final_list_type2(finalList));
+                        data_display.Looping_final_list_type1(finalList,total);
+                        System.out.println("Vaccinated total: " + data_display.Looping_final_list_type2(finalList,total));
                     }
                 }
             }
@@ -166,20 +174,18 @@ public class Data extends Main{
 
 
 
-    public static void filling_blanks (List<List<String>> tmpList,List<String> tmp,int metricsNum){
-        for (List<String> stringList : tmpList) {
-            String data = stringList.subList(metricsNum, metricsNum + 1).get(0);
-            if (!data.equals("")) {
-                tmp.add(data);
-            } else {
-                tmp.add("0");
-            }
-        }
 
+
+
+}
+
+class data_display extends Data {
+    public data_display(LocalDate startDate, List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType) {
+        super(startDate, tmpList, groupType, groupDay, metricsNum, resultType);
     }
 
-    public static void Looping_final_list_type1 (List<List<String>> finalList){
-        int total = 0;
+
+    public static void Looping_final_list_type1 (List<List<String>> finalList,int total){
         for (List<String> string : finalList) {
             for (String num : string) {
                 int number = Integer.parseInt(num);
@@ -191,11 +197,11 @@ public class Data extends Main{
             string.clear();
             string.add(Integer.toString(total));
             System.out.println(string + " ");
+
         }
     }
 
-    public static  int Looping_final_list_type2 (List<List<String>> finalList){
-        int total = 0;
+    public static  int Looping_final_list_type2 (List<List<String>> finalList,int total){
         for (List<String> string : finalList) {
             for (String num : string) {
                 int number = Integer.parseInt(num);
@@ -209,8 +215,17 @@ public class Data extends Main{
 
 
 
+    public static void filling_blanks(List<List<String>> tmpList, List<String> tmp, int metricsNum){
+        for (List<String> stringList : tmpList) {
+            String data = stringList.subList(metricsNum, metricsNum + 1).get(0);
+            if (!data.equals("")) {
+                tmp.add(data);
+            } else {
+                tmp.add("0");
+            }
+        }
 
-
+    }
 }
 
 
