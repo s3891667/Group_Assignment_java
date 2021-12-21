@@ -64,6 +64,7 @@ public class Data extends Main{
 
 
         else if (groupType == 2) {
+
             int elementNum = tmpList.size() / groupDay;
             int remainder = tmpList.size() % groupDay;
             for (int i = 0; i < tmpList.size(); i++) {
@@ -87,6 +88,7 @@ public class Data extends Main{
                     tmp = new ArrayList<>();
                 }
             }
+
 
             if (metricsNum == 4) {
                 if (resultType == 1) {
@@ -146,6 +148,7 @@ public class Data extends Main{
                     if (resultType == 1) {
                         data_display.Looping_final_list_type1(finalList,total);
                     } else if (resultType == 2) {
+                        data_display.Looping_final_list_type1(finalList,total);
                         System.out.println("Total infected: " + data_display.Looping_final_list_type2(finalList,total));
                     }
                 }
@@ -171,12 +174,6 @@ public class Data extends Main{
             }
         }
     }
-
-
-
-
-
-
 }
 
 class data_display extends Data {
@@ -184,8 +181,8 @@ class data_display extends Data {
         super(startDate, tmpList, groupType, groupDay, metricsNum, resultType);
     }
 
-
     public static void Looping_final_list_type1 (List<List<String>> finalList,int total){
+        ArrayList <Integer> cases_list = new ArrayList<>();
         for (List<String> string : finalList) {
             for (String num : string) {
                 int number = Integer.parseInt(num);
@@ -197,8 +194,11 @@ class data_display extends Data {
             string.clear();
             string.add(Integer.toString(total));
             System.out.println(string + " ");
+            cases_list.add(total);
+            total = 0;
 
         }
+        System.out.println(cases_list);
     }
 
     public static  int Looping_final_list_type2 (List<List<String>> finalList,int total){

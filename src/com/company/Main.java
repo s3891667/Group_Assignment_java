@@ -9,7 +9,7 @@ public class Main {
     private static LocalDate startDate;
     private static LocalDate endDate;
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         int num;        // data object type (e.g, Country = 1, Continent = 2)
         int rangeNum;   // time range type
         int weekDays;   // the number of days or weeks
