@@ -150,8 +150,6 @@ public class Main {
                         startDate = changeFormat(start).minusWeeks(weekDays);
 
                     }
-
-
                 }
 
 
@@ -174,8 +172,6 @@ public class Main {
 
                 System.out.println("\nChoose 1 for New Total, 2 for Up To ");
                 resultType = scanInt.nextInt();
-
-
                 tmpList = dataProcess(data, area, num);
                 Data data1 = new Data(startDate,tmpList,groupType,groupDay,metricsNum,resultType);
                 data1.dataGroup();
