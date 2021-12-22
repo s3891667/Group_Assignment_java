@@ -26,17 +26,13 @@ public class Data extends Main {
 
 
     public void dataGroup() {
-
-
         if (groupType == 1) {
             update = startDate;
-            data_display.filling_blanks(tmpList, tmp, metricsNum);
-            finalList.add(tmp);
-
-
+            data_display.filling_blanks(tmpList, tmp, metricsNum,finalList,cases_list);
+            System.out.println(finalList);
             for (int i = 0; i < tmpList.size(); i++) {
-                System.out.println("day " + update.plusDays(i).getDayOfMonth() + " : " + tmp.get(i));
-                cases_list.add(Integer.valueOf(tmp.get(i)));
+                System.out.println("day " + update.plusDays(i).getDayOfMonth() + " : " + finalList.get(i));
+
             }
             if (metricsNum == 4) {
                 if (resultType == 1) {
@@ -172,18 +168,16 @@ public class Data extends Main {
         int k = 0;
         for (List<String> csv : finalList) {
             System.out.print(update_date);
-            for (int j = 1; j < csv.toArray().length ; j++) {
+            for (int j = 1; j <= csv.toArray().length ; j++) {
                 update_date = update_date.plusDays(1);
-                if(j ==csv.toArray().length-1){
-                    System.out.print(" - " + update_date +" " + cases_list.get(k) );
+                if(j == csv.toArray().length){
+                    System.out.print(" - " + update_date +" " + cases_list.get(k)  );
                     k +=1;
                     System.out.println();
                     update_date = update_date.plusDays(1);
                 }
             }
-
         }
-
     }
 
 
@@ -226,14 +220,19 @@ class data_display  {
 
 
 
-    public static void filling_blanks(List<List<String>> tmpList, List<String> tmp, int metricsNum){
+    public static void filling_blanks(List<List<String>> tmpList, List<String> tmp, int metricsNum,  List<List<String>> finalList,ArrayList<Integer> cases_list){
         for (List<String> stringList : tmpList) {
             String data = stringList.subList(metricsNum, metricsNum + 1).get(0);
             if (!data.equals("")) {
                 tmp.add(data);
+
             } else {
                 tmp.add("0");
             }
+            finalList.add(tmp);
+            cases_list.add(Integer.valueOf(data));
+            tmp = new ArrayList<>();
+
         }
 
     }
