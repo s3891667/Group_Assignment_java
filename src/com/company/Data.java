@@ -2,6 +2,7 @@ package com.company;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -28,34 +29,34 @@ public class Data extends Main {
     public void dataGroup() {
         if (groupType == 1) {
             update = startDate;
-            data_display.filling_blanks(tmpList, tmp, metricsNum,finalList,cases_list);
-            System.out.println(finalList);
+            data_display.filling_blanks(tmpList, tmp, metricsNum,finalList);
             for (int i = 0; i < tmpList.size(); i++) {
-                System.out.println("day " + update.plusDays(i).getDayOfMonth() + " : " + finalList.get(i));
-
+                System.out.println("day " + update.plusDays(i).getDayOfMonth() + " : " + tmp.get(i));
+                cases_list.add(Integer.valueOf(tmp.get(i)));
             }
             if (metricsNum == 4) {
                 if (resultType == 1) {
-                    System.out.println(finalList);
+                    System.out.println(cases_list);
                 } else if (resultType == 2) {
 
                     System.out.println("Total infected : " + data_display.Looping_final_list_type2(finalList, total));
                 }
             } else if (metricsNum == 5) {
                 if (resultType == 1) {               // calculate New total
-                    System.out.println(finalList);
+                    System.out.println(cases_list);
                 } else if (resultType == 2) {
                     System.out.println("Death total: " + data_display.Looping_final_list_type2(finalList, total));
                 }
 
             } else if (metricsNum == 6) {
                 if (resultType == 1) {               // calculate New total
-                    System.out.println(finalList);
+                    System.out.println(cases_list);
                 } else if (resultType == 2) {// calculate from beginning up to last group
                     System.out.println("Vaccinated total: " + data_display.Looping_final_list_type2(finalList, total));
                 }
 
             }
+
         } else if (groupType == 2) {
 
             int elementNum = tmpList.size() / groupDay;
@@ -102,10 +103,8 @@ public class Data extends Main {
                 }
 
             } else if (metricsNum == 6) {
-
                 if (resultType == 1) {               // calculate New total
                     System.out.println(data_display.Looping_final_list_type1(finalList, total, cases_list));
-
                 } else if (resultType == 2) {          // calculate from beginning up to last group
                     System.out.println(data_display.Looping_final_list_type1(finalList, total, cases_list));
                     System.out.println("Vaccinated total: " + data_display.Looping_final_list_type2(finalList, total));
@@ -158,32 +157,42 @@ public class Data extends Main {
             }
 
         }
-        tabular(finalList,startDate,cases_list);
-
-
-
+        tabular(finalList,startDate,cases_list,groupType);
     }
-    public void tabular(List<List<String>>finalList, LocalDate startDate,ArrayList<Integer> cases_list) {
+
+
+    public void tabular(List<List<String>>finalList, LocalDate startDate,ArrayList<Integer> cases_list,int groupType) {
         LocalDate update_date = startDate;
         int k = 0;
-        for (List<String> csv : finalList) {
-            System.out.print(update_date);
-            for (int j = 1; j <= csv.toArray().length ; j++) {
-                update_date = update_date.plusDays(1);
-                if(j == csv.toArray().length){
-                    System.out.print(" - " + update_date +" " + cases_list.get(k)  );
-                    k +=1;
-                    System.out.println();
+
+        if(groupType == 1){
+            for ( List<String> csv : finalList){
+                for (int j = 0; j < csv.toArray().length-1 ; j++ ){
+                    if ( j ==0){
+                        System.out.println(update_date + " : " + cases_list.get(k));
+                        k+=1;}
+                    else {
+                        System.out.println(update_date.plusDays(1) + " : " + cases_list.get(k));
+                        k+=1;}
                     update_date = update_date.plusDays(1);
                 }
             }
         }
+        else if ( groupType ==2 || groupType == 3){
+        for (List<String> csv : finalList) {
+            System.out.print(update_date);
+            for (int j = 0; j < csv.toArray().length ; j++) {
+                update_date = update_date.plusDays(1);
+                if(j == csv.toArray().length-2){
+                    System.out.print(" - " + update_date + " : " + cases_list.get(k));
+                    k +=1;
+                    System.out.println();
+                }
+            }
+        }
+        }
     }
-
-
 }
-
-
 
 
 
@@ -198,13 +207,11 @@ class data_display  {
             }
             System.out.print(string + "  ");
             System.out.println(total + " ");
-
             cases_list.add(total);
             total = 0;
         }
         return cases_list;
     }
-
 
     public static  int Looping_final_list_type2 (List<List<String>> finalList,int total){
         for (List<String> string : finalList) {
@@ -220,7 +227,7 @@ class data_display  {
 
 
 
-    public static void filling_blanks(List<List<String>> tmpList, List<String> tmp, int metricsNum,  List<List<String>> finalList,ArrayList<Integer> cases_list){
+    public static void filling_blanks(List<List<String>> tmpList, List<String> tmp, int metricsNum,List<List<String>> finalList){
         for (List<String> stringList : tmpList) {
             String data = stringList.subList(metricsNum, metricsNum + 1).get(0);
             if (!data.equals("")) {
@@ -229,11 +236,10 @@ class data_display  {
             } else {
                 tmp.add("0");
             }
-            finalList.add(tmp);
-            cases_list.add(Integer.valueOf(data));
-            tmp = new ArrayList<>();
 
         }
+        finalList.add(tmp);
+
 
     }
 
