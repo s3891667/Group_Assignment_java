@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Data extends Main {
     private final LocalDate startDate;
+    private final LocalDate endDate;
     private final List<List<String>> tmpList;
     int groupType, groupDay, metricsNum, resultType;
     List<List<String>> finalList = new ArrayList<>();
@@ -16,8 +17,9 @@ public class Data extends Main {
     LocalDate update;
     ArrayList<Integer> cases_list = new ArrayList<>();
 
-    public Data(LocalDate startDate, List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType) {
+    public Data(LocalDate startDate,LocalDate endDate, List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType) {
         this.startDate = startDate;
+        this.endDate = endDate;
         this.tmpList = tmpList;
         this.groupType = groupType;
         this.groupDay = groupDay;
@@ -29,10 +31,9 @@ public class Data extends Main {
     public void dataGroup() {
         if (groupType == 1) {
             update = startDate;
-            data_display.filling_blanks(tmpList, tmp, metricsNum,finalList);
+            data_display.filling_blanks(tmpList, tmp, metricsNum,finalList,cases_list);
             for (int i = 0; i < tmpList.size(); i++) {
-                System.out.println("day " + update.plusDays(i).getDayOfMonth() + " : " + tmp.get(i));
-                cases_list.add(Integer.valueOf(tmp.get(i)));
+                System.out.println("day " + update.plusDays(i).getDayOfMonth() + " : " + finalList.get(i));
             }
             if (metricsNum == 4) {
                 if (resultType == 1) {
@@ -157,39 +158,37 @@ public class Data extends Main {
             }
 
         }
-        tabular(finalList,startDate,cases_list,groupType);
+        System.out.println(finalList);
+        tabular(finalList,startDate,cases_list,endDate);
+
     }
 
 
-    public void tabular(List<List<String>>finalList, LocalDate startDate,ArrayList<Integer> cases_list,int groupType) {
+    public void tabular(List<List<String>>finalList, LocalDate startDate,ArrayList<Integer> cases_list, LocalDate endDate) {
         LocalDate update_date = startDate;
+        LocalDate breaker = endDate.plusDays(1);
         int k = 0;
-
-        if(groupType == 1){
-            for ( List<String> csv : finalList){
-                for (int j = 0; j < csv.toArray().length-1 ; j++ ){
-                    if ( j ==0){
-                        System.out.println(update_date + " : " + cases_list.get(k));
-                        k+=1;}
-                    else {
-                        System.out.println(update_date.plusDays(1) + " : " + cases_list.get(k));
-                        k+=1;}
-                    update_date = update_date.plusDays(1);
-                }
-            }
-        }
-        else if ( groupType ==2 || groupType == 3){
         for (List<String> csv : finalList) {
-            System.out.print(update_date);
+            if(update_date.getDayOfMonth() == breaker.getDayOfMonth()){
+                break;}
+            else{
+            System.out.print(update_date);}
             for (int j = 0; j < csv.toArray().length ; j++) {
                 update_date = update_date.plusDays(1);
+                while (csv.toArray().length == 1){
+                    System.out.print(" : " + cases_list.get(k));
+                    System.out.println();
+                    if( update_date.getDayOfMonth() == breaker.getDayOfMonth()){
+                        break;}
+                    System.out.print(update_date);
+                    update_date = update_date.plusDays(1);
+                    k+=1;
+                    j++;}
                 if(j == csv.toArray().length-2){
                     System.out.print(" - " + update_date + " : " + cases_list.get(k));
                     k +=1;
-                    System.out.println();
-                }
+                    System.out.println();}
             }
-        }
         }
     }
 }
@@ -227,7 +226,7 @@ class data_display  {
 
 
 
-    public static void filling_blanks(List<List<String>> tmpList, List<String> tmp, int metricsNum,List<List<String>> finalList){
+    public static void filling_blanks(List<List<String>> tmpList, List<String> tmp, int metricsNum,List<List<String>> finalList,ArrayList<Integer> cases_list){
         for (List<String> stringList : tmpList) {
             String data = stringList.subList(metricsNum, metricsNum + 1).get(0);
             if (!data.equals("")) {
@@ -236,9 +235,11 @@ class data_display  {
             } else {
                 tmp.add("0");
             }
-
+            finalList.add(tmp);
+            cases_list.add(Integer.valueOf(data));
+            tmp = new ArrayList<>();
         }
-        finalList.add(tmp);
+
 
 
     }
