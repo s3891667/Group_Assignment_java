@@ -8,7 +8,6 @@ import java.util.*;
 public class Main {
     private static LocalDate startDate;
     private static LocalDate endDate;
-
     public static void main(String[] args)  {
         int num;        // data object type (e.g, Country = 1, Continent = 2)
         int rangeNum;   // time range type
@@ -173,8 +172,13 @@ public class Main {
                 System.out.println("\nChoose 1 for New Total, 2 for Up To ");
                 resultType = scanInt.nextInt();
                 tmpList = dataProcess(data, area, num);
-                Data data1 = new Data(startDate,tmpList,groupType,groupDay,metricsNum,resultType);
-                data1.dataGroup();
+
+
+                System.out.println("\n Choose 1 for Tabular, 2 for Chart diplay");
+                int displaytype = scanInt.nextInt();
+
+                passing_value(groupType, groupDay, metricsNum, resultType, displaytype, tmpList);
+
             }
 
             else if (user == 'N') {
@@ -220,8 +224,19 @@ public class Main {
         return tempList;
     }
 
+    public static void passing_value(int groupType,int groupDay,int metricsNum,int resultType,int displaytype, List<List<String>> tmpList ){
+        Data data = new Data(startDate,endDate,tmpList,groupType,groupDay,metricsNum,resultType,displaytype);
+        data.dataGroup();
+        data.displaying();
+    }
+
 
 }
+
+
+
+
+
 
 
 
