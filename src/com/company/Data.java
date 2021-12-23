@@ -36,33 +36,29 @@ public class Data extends Main {
         if (groupType == 1) {
             update = getStartDate();
             data_display.filling_blanks(tmpList, tmp, metricsNum,finalList,cases_list);
-            for (int i = 0; i < tmpList.size(); i++) {
-                System.out.println("day " + update.plusDays(i).getDayOfMonth() + " : " + finalList.get(i));
-            }
-
-
-
             if (metricsNum == 4) {
                 if (resultType == 1) {
-                    System.out.println(cases_list);
+                    System.out.println(data_display.newtotal(finalList, total, cases_list));
                 } else if (resultType == 2) {
-
-                    System.out.println("Total infected : " + data_display.Looping_final_list_type2(finalList, total));
+                    System.out.println(data_display.upto(finalList, total, cases_list));
                 }
             } else if (metricsNum == 5) {
                 if (resultType == 1) {               // calculate New total
-                    System.out.println(cases_list);
+                    System.out.println(data_display.newtotal(finalList, total, cases_list));
                 } else if (resultType == 2) {
-                    System.out.println("Death total: " + data_display.Looping_final_list_type2(finalList, total));
+                    System.out.println(data_display.upto(finalList, total, cases_list));
                 }
 
             } else if (metricsNum == 6) {
                 if (resultType == 1) {               // calculate New total
-                    System.out.println(cases_list);
+                    System.out.println(data_display.newtotal(finalList, total, cases_list));
                 } else if (resultType == 2) {// calculate from beginning up to last group
-                    System.out.println("Vaccinated total: " + data_display.Looping_final_list_type2(finalList, total));
+                    System.out.println(data_display.upto(finalList, total, cases_list));
                 }
             }
+
+
+
         } else if (groupType == 2) {
             int elementNum = tmpList.size() / groupDay;
             int remainder = tmpList.size() % groupDay;
@@ -92,25 +88,24 @@ public class Data extends Main {
 
             if (metricsNum == 4) {
                 if (resultType == 1) {
-                    System.out.println(data_display.Looping_final_list_type1(finalList, total, cases_list));
+                    System.out.println(data_display.newtotal(finalList, total, cases_list));
                 } else if (resultType == 2) {
-                    System.out.println(data_display.Looping_final_list_type1(finalList, total, cases_list));
-                    System.out.println("Total infected: " + data_display.Looping_final_list_type2(finalList, total));
+                    System.out.println(data_display.upto(finalList, total, cases_list));
+
                 }
             } else if (metricsNum == 5) {
                 if (resultType == 1) {
-                    System.out.println(data_display.Looping_final_list_type1(finalList, total, cases_list));
+                    System.out.println(data_display.newtotal(finalList, total, cases_list));
                 } else if (resultType == 2) {
-                    System.out.println(data_display.Looping_final_list_type1(finalList, total, cases_list));
-                    System.out.println("Death total: " + data_display.Looping_final_list_type2(finalList, total));
+                    System.out.println(data_display.upto(finalList, total, cases_list));
+
                 }
 
             } else if (metricsNum == 6) {
                 if (resultType == 1) {               // calculate New total
-                    System.out.println(data_display.Looping_final_list_type1(finalList, total, cases_list));
+                    System.out.println(data_display.newtotal(finalList, total, cases_list));
                 } else if (resultType == 2) {          // calculate from beginning up to last group
-                    System.out.println(data_display.Looping_final_list_type1(finalList, total, cases_list));
-                    System.out.println("Vaccinated total: " + data_display.Looping_final_list_type2(finalList, total));
+                    System.out.println(data_display.upto(finalList, total, cases_list));
                 }
 
             }
@@ -136,35 +131,28 @@ public class Data extends Main {
                 }
                 if (metricsNum == 4) {
                     if (resultType == 1) {
-                        System.out.println(data_display.Looping_final_list_type1(finalList, total, cases_list));
+                        System.out.println(data_display.newtotal(finalList, total, cases_list));
                     } else if (resultType == 2) {
-                        System.out.println(data_display.Looping_final_list_type1(finalList, total, cases_list));
-                        System.out.println("Total infected: " + data_display.Looping_final_list_type2(finalList, total));
+                        System.out.println(data_display.upto(finalList, total, cases_list));
                     }
                 } else if (metricsNum == 5) {
                     if (resultType == 1) {
-                        System.out.println(data_display.Looping_final_list_type1(finalList, total, cases_list));
+                        System.out.println(data_display.newtotal(finalList, total, cases_list));
                     } else if (resultType == 2) {
-                        System.out.println(data_display.Looping_final_list_type1(finalList, total, cases_list));
-                        System.out.println("Death total: " + data_display.Looping_final_list_type2(finalList, total));
+                        System.out.println(data_display.upto(finalList, total, cases_list));
+
                     }
                 } else if (metricsNum == 6) {
                     if (resultType == 1) {               // calculate New total
-                        System.out.println(data_display.Looping_final_list_type1(finalList, total, cases_list));
+                        System.out.println(data_display.newtotal(finalList, total, cases_list));
 
                     } else if (resultType == 2) {          // calculate from beginning up to last group
-                        System.out.println(data_display.Looping_final_list_type1(finalList, total, cases_list));
-                        System.out.println("Vaccinated total: " + data_display.Looping_final_list_type2(finalList, total));
+                        System.out.println(data_display.upto(finalList, total, cases_list));
                     }
                 }
             }
         }
     }
-
-
-
-
-
     public void displaying(){
         if( displaytype == 1){
             data_display.tabular(startDate,endDate,finalList,cases_list);
@@ -172,102 +160,109 @@ public class Data extends Main {
     }
 }
 
-class data_display extends  Data  {
+class data_display extends  Data {
     public data_display(LocalDate startDate, LocalDate endDate, List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType, int displaytype) {
-        super(startDate, endDate, tmpList, groupType, groupDay, metricsNum, resultType,displaytype);
+        super(startDate, endDate, tmpList, groupType, groupDay, metricsNum, resultType, displaytype);
     }
 
-    public static ArrayList<Integer> Looping_final_list_type1 (List<List<String>> finalList, int total, ArrayList<Integer>cases_list){
+    public static ArrayList<Integer> upto(List<List<String>> finalList, int total, ArrayList<Integer> cases_list) {
         for (List<String> string : finalList) {
             for (String num : string) {
                 int number = Integer.parseInt(num);
-                if(number != 0) {
-                    total += number;}
+                if (number != 0) {
+                    total += number;
+                }
             }
             System.out.print(string + "  ");
             System.out.println(total + " ");
             cases_list.add(total);
-            total = 0;}
 
+        }
         System.out.print("\nGrouped Data : ");
         return cases_list;
     }
 
-    public static  int Looping_final_list_type2 (List<List<String>> finalList,int total){
+    public static ArrayList<Integer> newtotal(List<List<String>> finalList, int total, ArrayList<Integer> cases_list) {
         for (List<String> string : finalList) {
             for (String num : string) {
                 int number = Integer.parseInt(num);
-                if(number != 0) {
+                if (number != 0) {
                     total += number;
                 }
             }
+            System.out.print(string + "  ");
+            System.out.println(total + " ");
+            cases_list.add(total);
+            total = 0;
+
         }
-        return total;
+        System.out.print("\nGrouped Data : ");
+        return cases_list;
     }
 
 
-    public static void filling_blanks(List<List<String>> tmpList, List<String> tmp, int metricsNum,List<List<String>> finalList,ArrayList<Integer> cases_list){
+
+    public static void filling_blanks(List<List<String>> tmpList, List<String> tmp, int metricsNum, List<List<String>> finalList, ArrayList<Integer> cases_list) {
         for (List<String> stringList : tmpList) {
             String data = stringList.subList(metricsNum, metricsNum + 1).get(0);
             if (!data.equals("")) {
-                tmp.add(data);}
-            else {
-                tmp.add("0");}
+                tmp.add(data);
+            } else {
+                tmp.add("0");
+            }
             finalList.add(tmp);
             cases_list.add(Integer.valueOf(data));
             tmp = new ArrayList<>();
         }
     }
 
-
-    public static void tabular(LocalDate startDate, LocalDate endDate,List<List<String>> finalList,ArrayList<Integer> cases_list) {
+    public static void tabular(LocalDate startDate, LocalDate endDate, List<List<String>> finalList, ArrayList<Integer> cases_list) {
         LocalDate update_date = startDate;
         LocalDate breaker = endDate.plusDays(1);
         int k = 0;
         int counter = 0;
         for (List<String> csv : finalList) {
-            if(update_date.getDayOfMonth() == breaker.getDayOfMonth()){
-                break;}
-            else{
-                if(csv.toArray().length ==1 && counter ==0){
+            if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
+                break;
+            } else {
+                if (csv.toArray().length == 1 && counter == 0) {
                     System.out.print("\n--Tabular Display--");
                     System.out.println("\n|Date ranges|Cases|");
-                }
-                else if(csv.toArray().length >1 && counter==0){
+                } else if (csv.toArray().length > 1 && counter == 0) {
                     System.out.print("\n---------Tabular Display--------");
                     System.out.println("\n|-------Date ranges------|Cases|");
                 }
-                counter+=1;
-            }
-            System.out.print("|"+update_date);
-            for (int j = 0; j < csv.toArray().length ; j++) {
-                update_date = update_date.plusDays(1);
-                if(update_date.getDayOfMonth() == breaker.getDayOfMonth()){
-                    System.out.println("|______________________________|");
-                }
-                while (csv.toArray().length == 1){
-                    if(cases_list.get(k) >= 10){
-                    System.out.print(" :  " + cases_list.get(k)+ " |");}
-                    else if(cases_list.get(k) < 10){
-                        System.out.print(" :  " + cases_list.get(k)+ "  |");
-                    }
-                    System.out.println();
-                    if( update_date.getDayOfMonth() == breaker.getDayOfMonth()){
-                        System.out.print("|_________________|");
-                        break;}
-                    System.out.print("|"+update_date);
+                counter += 1;
+                System.out.print("|" + update_date);
+                for (int j = 0; j < csv.toArray().length; j++) {
                     update_date = update_date.plusDays(1);
-                    k+=1;
-                    j++;}
-                if(j == csv.toArray().length-2){
-                    System.out.print(" - " + update_date + " : " + cases_list.get(k)+ "  |");
-                    k +=1;
-                    System.out.println();
+                    if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
+                        System.out.println("|______________________________|");
+                    }
+                    while (csv.toArray().length == 1) {
+                        if (cases_list.get(k) >= 10) {
+                            System.out.print(" :  " + cases_list.get(k) + " |");
+                        } else if (cases_list.get(k) < 10) {
+                            System.out.print(" :  " + cases_list.get(k) + "  |");
+                        }
+                        System.out.println();
+                        if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
+                            System.out.print("|_________________|");
+                            break;
+                        }
+                        System.out.print("|" + update_date);
+                        update_date = update_date.plusDays(1);
+                        k += 1;
+                        j++;
+                    }
+                    if (j == csv.toArray().length - 2) {
+                        System.out.print(" - " + update_date + " : " + cases_list.get(k) + "  |");
+                        k += 1;
+                        System.out.println();
+                    }
                 }
             }
         }
-
-
     }
 }
 
