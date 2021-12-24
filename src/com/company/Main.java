@@ -8,6 +8,7 @@ import java.util.*;
 public class Main {
     private static LocalDate startDate;
     private static LocalDate endDate;
+
     public static void main(String[] args)  {
         int num;        // data object type (e.g, Country = 1, Continent = 2)
         int rangeNum;   // time range type
@@ -29,6 +30,7 @@ public class Main {
 
         List<List<String>> data = new ArrayList<>();
         File file = new File("covid-data.csv");
+
 
 
         try {       // get data from covid-data.csv
@@ -174,7 +176,7 @@ public class Main {
                 tmpList = dataProcess(data, area, num);
 
 
-                System.out.println("\n Choose 1 for Tabular, 2 for Chart diplay");
+                System.out.println("\n Choose 1 for Tabular, 2 for Chart display");
                 int displaytype = scanInt.nextInt();
 
                 passing_value(groupType, groupDay, metricsNum, resultType, displaytype, tmpList);
@@ -225,9 +227,9 @@ public class Main {
     }
 
     public static void passing_value(int groupType,int groupDay,int metricsNum,int resultType,int displaytype, List<List<String>> tmpList ){
-        data_display data = new data_display(startDate,endDate,tmpList,groupType,groupDay,metricsNum,resultType,displaytype);
-        data.dataGroup(startDate, tmpList, groupType, groupDay, metricsNum, resultType);
-        data.displaying(displaytype, startDate, endDate);
+        data_display data2 = new data_display(startDate,endDate,tmpList,groupType,groupDay,metricsNum,resultType,displaytype);
+        data2.dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
+        data2.displaying(displaytype,startDate,endDate);
     }
 
 
@@ -235,7 +237,7 @@ public class Main {
 
 
 
-}
+
 
 
 

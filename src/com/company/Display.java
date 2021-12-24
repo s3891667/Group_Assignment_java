@@ -1,57 +1,119 @@
 package com.company;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
-public class Display {
-    public static void main(String[] args) {
-        ArrayList<Integer> List = new ArrayList<>();
-        String[][] Oxy = new String[24][80];
+import java.util.Collections;
+import java.util.List;
+
+class Display extends Data {
+    static String[][] Oxy = new String[24][80];
+    public Display(ArrayList<Integer> cases_list) {
+        super(cases_list);
+    }
+
+    public static void tabular(LocalDate startDate, LocalDate endDate, List<List<String>> finalList, ArrayList<Integer> cases_list) {
+        LocalDate update_date = startDate;
+        LocalDate breaker = endDate.plusDays(1);
+        int k = 0;
+        int counter = 0;
+        for (List<String> csv : finalList) {
+            if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
+                break;}
+            else {
+                if (csv.toArray().length == 1 && counter == 0) {
+                    System.out.print("\n--Tabular Display--");
+                    System.out.println("\n|Date ranges|Cases|");}
+                else if (csv.toArray().length > 1 && counter == 0){
+                    System.out.print("\n---------Tabular Display--------");
+                    System.out.println("\n|-------Date ranges------|Cases|");}
+                counter += 1;
+                System.out.print("|" + update_date);
+                for (int j = 0; j < csv.toArray().length; j++) {
+                    update_date = update_date.plusDays(1);
+                    if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
+                        System.out.println("|______________________________|");
+                    }
+                    while (csv.toArray().length == 1) {
+                        if (cases_list.get(k) >= 10) {
+                            System.out.print(" :  " + cases_list.get(k) + " |");
+                        } else if (cases_list.get(k) < 10) {
+                            System.out.print(" :  " + cases_list.get(k) + "  |");
+                        }
+
+                        System.out.println();
+                        if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
+                            System.out.print("|_________________|");
+                            break;
+                        }
+                        System.out.print("|" + update_date);
+                        update_date = update_date.plusDays(1);
+                        k += 1;
+                        j++;
+                    }
+                    if (j == csv.toArray().length - 2) {
+                        System.out.print(" - " + update_date + " : " + cases_list.get(k) + "  |");
+                        k += 1;
+                        System.out.println();
+                    }
+                }
+            }
+        }
+    }
+
+    public static void Chart_theme() {
         for (int x = 0; x < 24; x++) {
             for (int y = 0; y < 80; y++) {
                 if (y == 0) {
-                    Oxy[x][0] = "|";
+                    Oxy[x][y] = "|";
                 } else if (x == 23) {
-                    Oxy[23][y] = "_";
+                    Oxy[x][y] = "_";
                 } else {
                     Oxy[x][y] = " ";
                 }
+                if (x ==23&& y ==0){
+                    Oxy[x][y] = "|";}
+            }
+        }
+    }
+
+    public static void display_chart_data() {
+        for (int x = 0; x < 24; x++) {
+            for (int y = 0; y < 80; y++) {
                 System.out.print(Oxy[x][y]);
             }
             System.out.println();
         }
-        // getmaxValue.
-        List.add(2);
-        List.add(4);
-        List.add(1);
-        Collections.sort(List);
-        int max= List.get(List.size()-1);
-        System.out.println(max);
-        // getminValue.
-        int min= List.get(0);
-        System.out.println(min);
+    }
 
-        // represent data
-        float valuerange = 22/(max-min+1);
-        float distancebetweencolumn = 78/valuerange;
-        int a;
-        int b=1;
 
-        for (int k = 0; k < List.toArray().length; k++) {
-            if ((int)List.get(k) == min) {
-                Oxy[22][b] = "*";
-            } else {
-                double valuePoint = (List.get(k) * valuerange) - min*valuerange;
+
+
+    // Display Data
+    public static void Solving_the_data(ArrayList<Integer> cases_list) {
+        Collections.sort(cases_list);
+        double max = Collections.max(cases_list);
+        double min = Collections.min(cases_list);
+        double value_range = 22 / (max -min +1) ;
+        int distance_between_column = 78 / (cases_list.toArray().length);
+        int y;
+        int x = 1;
+        for (int k = 0; k < cases_list.toArray().length; k++) {
+            if (cases_list.get(k) == min) {
+                Oxy[22][x] = "*";
+            }
+            else if ( cases_list.get(k) < min){
+                Oxy[22][x] = "*";
+            }
+            else  {
+                double valuePoint = (cases_list.get(k) * value_range) - min * value_range;
                 if (valuePoint < 1) {
                     valuePoint = 1;
                 }
-                a = (int) Math.ceil(23 - valuePoint);
-                Oxy[a][b] = "*";
+                y = (int) Math.ceil(23 - valuePoint);
+                Oxy[y][x] = "*";
             }
-
-            b += distancebetweencolumn;
+            x += distance_between_column;
         }
         System.out.println("---------------------------------- CHART TABLE ----------------------------------");
     }
-
 }
-
-
