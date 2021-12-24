@@ -225,10 +225,14 @@ public class Main {
     }
 
     public static void passing_value(int groupType,int groupDay,int metricsNum,int resultType,int displaytype, List<List<String>> tmpList ){
-        Data data = new Data(startDate,endDate,tmpList,groupType,groupDay,metricsNum,resultType,displaytype);
-        data.dataGroup();
-        data.displaying();
+        data_display data = new data_display(startDate,endDate,tmpList,groupType,groupDay,metricsNum,resultType,displaytype);
+        data.dataGroup(startDate, tmpList, groupType, groupDay, metricsNum, resultType);
+        data.displaying(displaytype, startDate, endDate);
     }
+
+
+}
+
 
 
 }

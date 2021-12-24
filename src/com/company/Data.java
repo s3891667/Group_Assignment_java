@@ -32,7 +32,115 @@ public class Data extends Main {
     }
 
 
-    public void dataGroup() {
+
+}
+
+class data_display extends  Data {
+    public data_display(LocalDate startDate, LocalDate endDate, List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType, int displaytype) {
+        super(startDate, endDate, tmpList, groupType, groupDay, metricsNum, resultType, displaytype);
+    }
+
+    public static ArrayList<Integer> upto(List<List<String>> finalList, int total, ArrayList<Integer> cases_list) {
+        for (List<String> string : finalList) {
+            for (String num : string) {
+                int number = Integer.parseInt(num);
+                if (number != 0) {
+                    total += number;
+                }
+            }
+            System.out.print(string + "  ");
+            System.out.println(total + " ");
+            cases_list.add(total);
+
+        }
+        System.out.print("\nGrouped Data : ");
+        return cases_list;
+    }
+
+    public static ArrayList<Integer> newtotal(List<List<String>> finalList, int total, ArrayList<Integer> cases_list) {
+        for (List<String> string : finalList) {
+            for (String num : string) {
+                int number = Integer.parseInt(num);
+                if (number != 0) {
+                    total += number;
+                }
+            }
+            System.out.print(string + "  ");
+            System.out.println(total + " ");
+            cases_list.add(total);
+            total = 0;
+
+        }
+        System.out.print("\nGrouped Data : ");
+        return cases_list;
+    }
+
+
+
+    public static void filling_blanks(List<List<String>> tmpList, List<String> tmp, int metricsNum, List<List<String>> finalList, ArrayList<Integer> cases_list) {
+        for (List<String> stringList : tmpList) {
+            String data = stringList.subList(metricsNum, metricsNum + 1).get(0);
+            if (!data.equals("")) {
+                tmp.add(data);
+            } else {
+                tmp.add("0");
+            }
+            finalList.add(tmp);
+            cases_list.add(Integer.valueOf(data));
+            tmp = new ArrayList<>();
+        }
+    }
+
+    public static void tabular(LocalDate startDate, LocalDate endDate, List<List<String>> finalList, ArrayList<Integer> cases_list) {
+        LocalDate update_date = startDate;
+        LocalDate breaker = endDate.plusDays(1);
+        int k = 0;
+        int counter = 0;
+        for (List<String> csv : finalList) {
+            if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
+                break;
+            } else {
+                if (csv.toArray().length == 1 && counter == 0) {
+                    System.out.print("\n--Tabular Display--");
+                    System.out.println("\n|Date ranges|Cases|");
+                } else if (csv.toArray().length > 1 && counter == 0) {
+                    System.out.print("\n---------Tabular Display--------");
+                    System.out.println("\n|-------Date ranges------|Cases|");
+                }
+                counter += 1;
+                System.out.print("|" + update_date);
+                for (int j = 0; j < csv.toArray().length; j++) {
+                    update_date = update_date.plusDays(1);
+                    if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
+                        System.out.println("|______________________________|");
+                    }
+                    while (csv.toArray().length == 1) {
+                        if (cases_list.get(k) >= 10) {
+                            System.out.print(" :  " + cases_list.get(k) + " |");
+                        } else if (cases_list.get(k) < 10) {
+                            System.out.print(" :  " + cases_list.get(k) + "  |");
+                        }
+                        System.out.println();
+                        if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
+                            System.out.print("|_________________|");
+                            break;
+                        }
+                        System.out.print("|" + update_date);
+                        update_date = update_date.plusDays(1);
+                        k += 1;
+                        j++;
+                    }
+                    if (j == csv.toArray().length - 2) {
+                        System.out.print(" - " + update_date + " : " + cases_list.get(k) + "  |");
+                        k += 1;
+                        System.out.println();
+                    }
+                }
+            }
+        }
+    }
+
+    public void dataGroup(LocalDate startDate, List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType) {
         if (groupType == 1) {
             update = getStartDate();
             data_display.filling_blanks(tmpList, tmp, metricsNum,finalList,cases_list);
@@ -153,122 +261,12 @@ public class Data extends Main {
             }
         }
     }
-    public void displaying(){
+
+    public void displaying(int displaytype, LocalDate startDate, LocalDate endDate){
         if( displaytype == 1){
             data_display.tabular(startDate,endDate,finalList,cases_list);
         }
     }
 }
-
-class data_display extends  Data {
-    public data_display(LocalDate startDate, LocalDate endDate, List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType, int displaytype) {
-        super(startDate, endDate, tmpList, groupType, groupDay, metricsNum, resultType, displaytype);
-    }
-
-    public static ArrayList<Integer> upto(List<List<String>> finalList, int total, ArrayList<Integer> cases_list) {
-        for (List<String> string : finalList) {
-            for (String num : string) {
-                int number = Integer.parseInt(num);
-                if (number != 0) {
-                    total += number;
-                }
-            }
-            System.out.print(string + "  ");
-            System.out.println(total + " ");
-            cases_list.add(total);
-
-        }
-        System.out.print("\nGrouped Data : ");
-        return cases_list;
-    }
-
-    public static ArrayList<Integer> newtotal(List<List<String>> finalList, int total, ArrayList<Integer> cases_list) {
-        for (List<String> string : finalList) {
-            for (String num : string) {
-                int number = Integer.parseInt(num);
-                if (number != 0) {
-                    total += number;
-                }
-            }
-            System.out.print(string + "  ");
-            System.out.println(total + " ");
-            cases_list.add(total);
-            total = 0;
-
-        }
-        System.out.print("\nGrouped Data : ");
-        return cases_list;
-    }
-
-
-
-    public static void filling_blanks(List<List<String>> tmpList, List<String> tmp, int metricsNum, List<List<String>> finalList, ArrayList<Integer> cases_list) {
-        for (List<String> stringList : tmpList) {
-            String data = stringList.subList(metricsNum, metricsNum + 1).get(0);
-            if (!data.equals("")) {
-                tmp.add(data);
-            } else {
-                tmp.add("0");
-            }
-            finalList.add(tmp);
-            cases_list.add(Integer.valueOf(data));
-            tmp = new ArrayList<>();
-        }
-    }
-
-    public static void tabular(LocalDate startDate, LocalDate endDate, List<List<String>> finalList, ArrayList<Integer> cases_list) {
-        LocalDate update_date = startDate;
-        LocalDate breaker = endDate.plusDays(1);
-        int k = 0;
-        int counter = 0;
-        for (List<String> csv : finalList) {
-            if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
-                break;
-            } else {
-                if (csv.toArray().length == 1 && counter == 0) {
-                    System.out.print("\n--Tabular Display--");
-                    System.out.println("\n|Date ranges|Cases|");
-                } else if (csv.toArray().length > 1 && counter == 0) {
-                    System.out.print("\n---------Tabular Display--------");
-                    System.out.println("\n|-------Date ranges------|Cases|");
-                }
-                counter += 1;
-                System.out.print("|" + update_date);
-                for (int j = 0; j < csv.toArray().length; j++) {
-                    update_date = update_date.plusDays(1);
-                    if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
-                        System.out.println("|______________________________|");
-                    }
-                    while (csv.toArray().length == 1) {
-                        if (cases_list.get(k) >= 10) {
-                            System.out.print(" :  " + cases_list.get(k) + " |");
-                        } else if (cases_list.get(k) < 10) {
-                            System.out.print(" :  " + cases_list.get(k) + "  |");
-                        }
-                        System.out.println();
-                        if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
-                            System.out.print("|_________________|");
-                            break;
-                        }
-                        System.out.print("|" + update_date);
-                        update_date = update_date.plusDays(1);
-                        k += 1;
-                        j++;
-                    }
-                    if (j == csv.toArray().length - 2) {
-                        System.out.print(" - " + update_date + " : " + cases_list.get(k) + "  |");
-                        k += 1;
-                        System.out.println();
-                    }
-                }
-            }
-        }
-    }
-}
-
-
-
-
-
 
 
