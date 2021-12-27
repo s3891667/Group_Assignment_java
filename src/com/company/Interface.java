@@ -11,14 +11,14 @@ public class Interface {
         System.out.println("                                               GROUP 07                                               \t");
         System.out.println("|____________________________________________________________________________________________________|");
     }
-    public char Start_Stop_Program(){
+    public void Start_Stop_Program(){
         System.out.println(" ____________________________________________________________________________________________________");
         System.out.println("|                                                                                                    |");
         System.out.println("                               Do you want to start the program? (Y/N)                                ");
         System.out.println("                                       Y: Yes     N: No                                               ");
         System.out.println("|____________________________________________________________________________________________________|");
-        Scanner scanner=new Scanner(System.in);
-        return scanner.next().charAt(0);
+
+
     }
     public int input_two_option() {
         Scanner scanner2 = new Scanner(System.in);
@@ -65,7 +65,7 @@ public class Interface {
         System.out.println("              Please choose number 2 to input " + text2 + "                       ");
         System.out.println("              Please choose number 3 to input " + text3 + "                       ");
         System.out.println("|____________________________________________________________________________________________________|");
-        return input_two_option();
+        return input_three_option();
     }
     public String Enter_name(String name){
         System.out.println();

@@ -58,20 +58,16 @@ public class Main {
             tmpList.clear();
             groupDay = 0;
 
-            interface_program.Intro_interface();
-
-            System.out.print("Do you want to start the program? (Y/N) ");
-
+            interface_program.Start_Stop_Program();
             user = scanMain.nextLine().charAt(0);
-
             if (user == 'Y' || user == 'y') {
                 System.out.println(" ____________________________________________________________________________________________________");
                 System.out.println("|                                                                                                    |");
                 System.out.println("|                                    Welcome to Data management                                      |");
                 System.out.println("|                                                                                                    |");
                 System.out.println("|____________________________________________________________________________________________________|");
-                
-                
+
+                interface_program.Intro_interface();
                 num=interface_program.Interface_management("Continent","Country",null);
                 if (num == 1) {
                     area=interface_program.Enter_name("Continent");
@@ -147,7 +143,6 @@ public class Main {
                         
                         endDate = changeFormat(start);
                         startDate = changeFormat(start).minusWeeks(weekDays);
-
                     }
                 }
 
