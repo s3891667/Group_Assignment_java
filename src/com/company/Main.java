@@ -168,17 +168,15 @@ public class Main {
                 tmpList = dataProcess(data, area, num);
 
 
-                System.out.println("\n Choose 1 for Tabular, 2 for Chart display");
-                int displaytype = scanInt.nextInt();
-
+                int displaytype=interface_program.Interface_management("Tabular","Chart",null);
                 passing_value(groupType, groupDay, metricsNum, resultType, displaytype, tmpList);
 
             }
 
             else if (user == 'N') {
-                System.out.println("\nThank you for using our program!\n");
+                interface_program.Interface_text("Thank you for using our program!\n");
                 break;
-            } else System.out.println("Please enter again");
+            } else interface_program.Interface_text("Please enter again");
 
         }
     }
