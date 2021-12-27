@@ -81,10 +81,10 @@ public class Main {
                     String start;
                     String end;
 
-                    System.out.println("\nStart date: ");
+                    interface_program.Interface_text("Start Date");
                     start = scanString.nextLine();
 
-                    System.out.println("End date: ");
+                    interface_program.Interface_text("End Date");
                     end = scanString.nextLine();
 
                     startDate = changeFormat(start);
@@ -93,24 +93,23 @@ public class Main {
                 } else if (rangeNum == 2) {
                     String start;
 
-                    System.out.println("\nEnter 1 for days, 2 for weeks: ");
-                    selectNum = scanInt.nextInt();
+                    selectNum=interface_program.Interface_management("Days","Weeks",null);
 
                     if (selectNum == 1) {
-                        System.out.println("\nStart date: ");
+                        interface_program.Interface_text("Start Date");
                         start = scanString.nextLine();
 
-                        System.out.println("A number of days: ");
+                        interface_program.Interface_text("A number of days");
                         weekDays = scanInt.nextInt();
-
+                        
                         startDate = changeFormat(start);
                         endDate = changeFormat(start).plusDays(weekDays);
 
                     } else if (selectNum == 2) {
-                        System.out.println("\nStart date: ");
+                        interface_program.Interface_text("Start Date");
                         start = scanString.nextLine();
 
-                        System.out.println("A number of weeks: ");
+                        interface_program.Interface_text("A Number of Weeks");
                         weekDays = scanInt.nextInt();
 
                         startDate = changeFormat(start);
@@ -122,26 +121,25 @@ public class Main {
                 } else if (rangeNum == 3) {
                     String start;
 
-                    System.out.println("\nEnter 1 for days, 2 for weeks: ");
-                    selectNum = scanInt.nextInt();
+                    selectNum=interface_program.Interface_management("Day","Week",null);
 
                     if (selectNum == 1) {
-                        System.out.println("\nStart date: ");
+                        interface_program.Interface_text("Start Date");
                         start = scanString.nextLine();
 
-                        System.out.println("A number of days: ");
+                        interface_program.Interface_text("A Number Of Days");
                         weekDays = scanInt.nextInt();
-
+                        
                         endDate = changeFormat(start);
                         startDate = changeFormat(start).minusDays(weekDays);
 
                     } else if (selectNum == 2) {
-                        System.out.println("\nStart date: ");
+                        interface_program.Interface_text("Start Date");
                         start = scanString.nextLine();
 
-                        System.out.println("A number of weeks: ");
+                        interface_program.Interface_text("A Number of Week");
                         weekDays = scanInt.nextInt();
-
+                        
                         endDate = changeFormat(start);
                         startDate = changeFormat(start).minusWeeks(weekDays);
 
