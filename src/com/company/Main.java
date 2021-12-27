@@ -20,8 +20,8 @@ public class Main {
         int resultType;
         String line;
         char user;
-        String area;
-
+        String area = null;
+        String[] array;
         List<List<String>> tmpList = new ArrayList<>();
 
         Scanner scanInt = new Scanner(System.in);
@@ -31,6 +31,7 @@ public class Main {
         List<List<String>> data = new ArrayList<>();
         File file = new File("covid-data.csv");
 
+        Interface interface_program = new Interface();
 
 
         try {       // get data from covid-data.csv
@@ -39,7 +40,7 @@ public class Main {
 
             while ((line = br.readLine()) != null) {
 
-                String[] array = line.split(",");
+                array = line.split(",");
                 List<String> temp = Arrays.asList(array);
                 data.add(temp);
 
@@ -49,11 +50,15 @@ public class Main {
             e.printStackTrace();
         }
 
+
+
         while (true) {
             startDate = null;   // initialize Date variable when loop begins
             endDate = null;
             tmpList.clear();
             groupDay = 0;
+
+            interface_program.Intro_interface();
 
             System.out.print("Do you want to start the program? (Y/N) ");
 
@@ -174,7 +179,7 @@ public class Main {
             }
 
             else if (user == 'N') {
-                interface_program.Interface_text("Thank you for using our program!\n");
+                interface_program.end_program("Thank you for using our program!\n");
                 break;
             } else interface_program.Interface_text("Please enter again");
 
@@ -193,7 +198,6 @@ public class Main {
     public static List<List<String>> dataProcess(List<List<String>> data, String continent, int num) {
         LocalDate date;
         List<List<String>> tempList = new ArrayList<>();
-
         if (num == 1) {
             for (int i = 1; i < data.size(); i++) {
                 date = changeFormat(data.get(i).get(3));
@@ -202,7 +206,6 @@ public class Main {
                     tempList.add(tmp);
                 }
             }
-
         } else if (num == 2) {
             for (int i = 1; i < data.size(); i++) {
                 date = changeFormat(data.get(i).get(3));
@@ -212,17 +215,13 @@ public class Main {
                 }
             }
         }
-
-        return tempList;
-    }
+        return tempList;}
 
     public static void passing_value(int groupType,int groupDay,int metricsNum,int resultType,int displaytype, List<List<String>> tmpList ){
-        data_display data2 = new data_display(startDate,endDate,tmpList,groupType,groupDay,metricsNum,resultType,displaytype);
-        data2.dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
-        data2.displaying(displaytype,startDate,endDate);
+        data_display data = new data_display(startDate,endDate,tmpList,groupType,groupDay,metricsNum,resultType,displaytype);
+        data.dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
+
     }
-
-
 }
 
 

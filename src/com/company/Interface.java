@@ -1,5 +1,4 @@
 package com.company;
-
 import java.util.Scanner;
 
 public class Interface {
@@ -84,6 +83,15 @@ public class Interface {
         System.out.println(" ____________________________________________________________________________________________________");
         System.out.println("|                                                                                                    |\t");
         System.out.println("                                     Enter a "+ name+"                                                 \t");
+        System.out.println("|____________________________________________________________________________________________________|");
+        System.out.println();
+    }
+
+    public void end_program(String name){
+        System.out.println();
+        System.out.println(" ____________________________________________________________________________________________________");
+        System.out.println("|                                                                                                    |\t");
+        System.out.println("                                       "+ name+"                                                   \t");
         System.out.println("|____________________________________________________________________________________________________|");
         System.out.println();
     }

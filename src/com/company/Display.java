@@ -39,7 +39,6 @@ class Display extends Data {
                         } else if (cases_list.get(k) < 10) {
                             System.out.print(" :  " + cases_list.get(k) + "  |");
                         }
-
                         System.out.println();
                         if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
                             System.out.print("|_________________|");
@@ -48,8 +47,7 @@ class Display extends Data {
                         System.out.print("|" + update_date);
                         update_date = update_date.plusDays(1);
                         k += 1;
-                        j++;
-                    }
+                        j++;}
                     if (j == csv.toArray().length - 2) {
                         System.out.print(" - " + update_date + " : " + cases_list.get(k) + "  |");
                         k += 1;
@@ -59,6 +57,14 @@ class Display extends Data {
             }
         }
     }
+
+
+    public static void chart( ArrayList <Integer>cases_list){
+        Chart_theme();
+        Solving_the_data(cases_list);
+        display_chart_data();
+    }
+
 
     public static void Chart_theme() {
         for (int x = 0; x < 24; x++) {
@@ -86,8 +92,6 @@ class Display extends Data {
     }
 
 
-
-
     // Display Data
     public static void Solving_the_data(ArrayList<Integer> cases_list) {
         Collections.sort(cases_list);
@@ -99,21 +103,17 @@ class Display extends Data {
         int x = 1;
         for (int k = 0; k < cases_list.toArray().length; k++) {
             if (cases_list.get(k) == min) {
-                Oxy[22][x] = "*";
-            }
+                Oxy[22][x] = "*";}
             else if ( cases_list.get(k) < min){
-                Oxy[22][x] = "*";
-            }
-            else  {
+                Oxy[22][x] = "*";}
+            else{
                 double valuePoint = (cases_list.get(k) * value_range) - min * value_range;
                 if (valuePoint < 1) {
-                    valuePoint = 1;
-                }
+                    valuePoint = 1;}
                 y = (int) Math.ceil(23 - valuePoint);
-                Oxy[y][x] = "*";
-            }
+                Oxy[y][x] = "*";}
             x += distance_between_column;
         }
-        System.out.println("---------------------------------- CHART TABLE ----------------------------------");
+        System.out.println("------------------------------------ CHART TABLE ------------------------------------");
     }
 }
