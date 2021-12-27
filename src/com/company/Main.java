@@ -147,25 +147,24 @@ public class Main {
                 }
 
 
-                System.out.println("\nChoose 1 for no grouping, Choose 2 for divide data into number of groups, 3 for number of days: ");
-                groupType = scanInt.nextInt();
+                groupType=interface_program.Interface_management("NO GROUPING","DIVIDING DATA INTO A NUMBER OF GROUPS ","NUMBER OF DAYS");
+
 
                 if ( groupType ==1){
                     System.out.println();
                 }
                 else if (groupType == 2) {
-                    System.out.println("Please input a number of groups: ");
+                    interface_program.Interface_text("Please input a number of groups: ");
                     groupDay = scanInt.nextInt();
                 } else if (groupType == 3) {
-                    System.out.println("Please input a number of days: ");
+                    interface_program.Interface_text("Please input a number of days: ");
                     groupDay = scanInt.nextInt();
                 }
 
-                System.out.println("\nChoose 1 for positive cases, 2 for deaths, 3 for people vaccinated");
-                metricsNum = scanInt.nextInt() + 3;
+                metricsNum=interface_program.Interface_management("positive cases","deaths","people vaccinated")+3;
 
-                System.out.println("\nChoose 1 for New Total, 2 for Up To ");
-                resultType = scanInt.nextInt();
+                resultType=interface_program.Interface_management("New Total","Up To",null);
+
                 tmpList = dataProcess(data, area, num);
 
 
