@@ -59,28 +59,23 @@ public class Main {
 
             user = scanMain.nextLine().charAt(0);
 
-            if (user == 'Y') {
-                System.out.println("|-----------------------------------------------|");
-                System.out.println("|          Welcome to Data management           |");
-                System.out.println("|-----------------------------------------------|");
-                System.out.println();
-                System.out.print("Please choose number 1 to input Continent, number 2 to input Country: ");
-
-                num = scanInt.nextInt();
+            if (user == 'Y' || user == 'y') {
+                System.out.println(" ____________________________________________________________________________________________________");
+                System.out.println("|                                                                                                    |");
+                System.out.println("|                                    Welcome to Data management                                      |");
+                System.out.println("|                                                                                                    |");
+                System.out.println("|____________________________________________________________________________________________________|");
+                
+                
+                num=interface_program.Interface_management("Continent","Country",null);
                 if (num == 1) {
-                    System.out.print("\nPlease input the Continent: ");
+                    area=interface_program.Enter_name("Continent");
                 } else if (num == 2) {
-                    System.out.print("\nPlease input the Country: ");
+                    area=interface_program.Enter_name("Country");
                 }
-                area = scanString.nextLine();
+                System.out.println();
 
-                System.out.println("-------------------------------------------------");
-                System.out.println("\nPlease choose the time range type");
-                System.out.println("Choose 1 for A pair of start date and end date(inclusive)");
-                System.out.println("Choose 2 for A number of days or weeks from a particular date");
-                System.out.println("Choose 3 for A number of days or weeks to a particular date");
-
-                rangeNum = scanInt.nextInt();
+                rangeNum=interface_program.Interface_management("A pair of start date and end date(inclusive)","A number of days or weeks from a particular date","A number of days or weeks to a particular date");
 
                 if (rangeNum == 1) {
                     String start;
