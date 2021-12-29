@@ -2,8 +2,9 @@ package com.company;
 import java.util.Scanner;
 
 public class Interface {
-
-
+    // This class is used to output the interface of the COVID-19 Selection MENU.
+    
+    // Public "Welcome and Introduction" Interface.
     public void Intro_interface(){
         System.out.println(" ____________________________________________________________________________________________________");
         System.out.println("|                                                                                                    |\t");
@@ -11,6 +12,8 @@ public class Interface {
         System.out.println("                                               GROUP 07                                               \t");
         System.out.println("|____________________________________________________________________________________________________|");
     }
+    
+    // Interface to ask for perform the program.
     public void Start_Stop_Program(){
         System.out.println(" ____________________________________________________________________________________________________");
         System.out.println("|                                                                                                    |");
@@ -20,6 +23,7 @@ public class Interface {
 
 
     }
+    // This method output the requirment to input the data again, and notify the message if the user enter a wrong characteristic.
     public int input_two_option() {
         Scanner scanner2 = new Scanner(System.in);
         int number_output2 = scanner2.nextInt();
@@ -34,6 +38,7 @@ public class Interface {
         }
         return number_output2;
     }
+    // Incase there is more than 3 selection, thisd mehtod is used.
     public int input_three_option(){
             Scanner scanner3=new Scanner(System.in);
             int number_output3=scanner3.nextInt();
@@ -48,6 +53,10 @@ public class Interface {
             }
             return number_output3;
     }
+    // this method is output the interface of selecting function, the option of the method based on the owner.
+    // For example:
+    // If the owner would to set up option 1: Hello; 2: Welcome; 3: Hi. The text would be presented.
+    // In case there is no selection in option 3, input the value of "null".
     public int Interface_management(String text1, String text2,String text3) {
         if (text3 == null) {
             System.out.println();
@@ -67,6 +76,8 @@ public class Interface {
         System.out.println("|____________________________________________________________________________________________________|");
         return input_three_option();
     }
+        // This method is used to output the interface of require to enter something.
+        // And scan the value which is required
     public String Enter_name(String name){
         System.out.println();
         System.out.println(" ____________________________________________________________________________________________________");
@@ -78,6 +89,7 @@ public class Interface {
         name=scanner_name.nextLine();
         return name;
     }
+    // This method is used to output the interface of require to enter something.
     public void Interface_text(String name){
         System.out.println();
         System.out.println(" ____________________________________________________________________________________________________");
@@ -86,7 +98,7 @@ public class Interface {
         System.out.println("|____________________________________________________________________________________________________|");
         System.out.println();
     }
-
+    // This method is used to output the interface of some text.
     public void end_program(String name){
         System.out.println();
         System.out.println(" ____________________________________________________________________________________________________");
