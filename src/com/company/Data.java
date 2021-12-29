@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Data extends Main {
-    private LocalDate startDate;
-    private  LocalDate endDate;
+    protected LocalDate startDate;
+    protected LocalDate endDate;
     private  List<List<String>> tmpList;
     private  int groupType, groupDay, metricsNum, resultType,display_type;
     int total = 0;
@@ -26,7 +26,9 @@ public class Data extends Main {
         this.display_type = display_type;}
 
     public Data(ArrayList<Integer> cases_list) {
-        this.cases_list = cases_list;}
+        this.cases_list = cases_list;
+
+    }
 
     public LocalDate getEndDate() {
         return endDate;
@@ -67,10 +69,14 @@ class data_display extends  Data {
         super(startDate, endDate, tmpList, groupType, groupDay, metricsNum, resultType, displaytype);
     }
 
+
+    // this will process the data input by the users
     public void dataGroup(List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType) {
         get_types processing = new get_types( getStartDate(), getEndDate(),  tmpList,  groupType,  groupDay,  metricsNum, resultType,getDisplay_type());
         processing.check_metrics();
-        processing.displaying_chart(getDisplay_type(),getStartDate(),getEndDate());}
+        processing.displaying_chart(getDisplay_type());}
+
+
 
     public static ArrayList<Integer> up_to(List<List<String>> finalList, int total, ArrayList<Integer> cases_list) {
         for (List<String> string : finalList) {
@@ -82,6 +88,9 @@ class data_display extends  Data {
             }
             System.out.print(string + "  ");
             System.out.println(total + " ");
+            /*different from new_total, up_to will continue to update the previous total case until it reach the last number
+            of the sublist in final list.
+            * */
             cases_list.add(total);}
         System.out.print("\nGrouped Data : ");
         return cases_list;
@@ -97,6 +106,7 @@ class data_display extends  Data {
             System.out.print(string + "  ");
             System.out.println(total + " ");
             cases_list.add(total);
+            // the total number will be return to zero each time num of the sublist of finalist reaches the last number
             total = 0;}
         System.out.print("\nGrouped Data : ");
         return cases_list;
@@ -157,16 +167,37 @@ class data_display extends  Data {
     }
 }
 
-
-abstract class information_processor extends data_display {
-    public information_processor(LocalDate startDate, LocalDate endDate, List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType, int display_type) {
-        super(startDate, endDate, tmpList, groupType, groupDay, metricsNum, resultType, display_type);}
-}
-
-class get_types extends information_processor{
+class get_types extends data_display{
+    /*this class helps data processing more convenient
+    this will check and call methods at the same time
+     */
     public get_types(LocalDate startDate, LocalDate endDate, List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType, int display_type) {
         super(startDate, endDate, tmpList, groupType, groupDay, metricsNum, resultType, display_type);}
 
+    // we check metrics first
+    public  void check_metrics (){
+        if(getMetricsNum() ==4){
+            System.out.println("Infected cases : ");}
+        else if (getMetricsNum() == 5){
+            System.out.println("Death cases : ");}
+        else if (getMetricsNum() ==6){
+            System.out.println("vaccinated : ");}
+        grouping_type();}
+    // second is grouping type
+    public void grouping_type(){
+        if( getGroupType() ==1){
+            grouping1(getTmpList(),tmp,getMetricsNum(),  finalList);}
+        else if (getGroupType() == 2){
+            grouping2( tmp, getGroupDay(),  finalList,  getMetricsNum(),  getTmpList());}
+
+        else if ( getGroupType()==3){
+            // when we cannot divide the data
+            if (getTmpList().size() % getGroupDay() != 0) {
+                System.out.println("ERROR: Can't divide groups equally!");}
+            grouping3( getTmpList(), finalList , getGroupDay(), getMetricsNum(), tmp);}
+        result_checker();
+    }
+    // lastly is result type ( new_total or up_to)
     public void result_checker(){
          if(getResultType() ==1){
              System.out.println(new_total(finalList,total, cases_list));
@@ -176,42 +207,14 @@ class get_types extends information_processor{
          }
     }
 
-    public  void check_metrics (){
-        if(getMetricsNum() ==4){
-            System.out.println("Infected cases : ");}
-        else if (getMetricsNum() == 5){
-            System.out.println("Death cases : ");}
-        else if (getMetricsNum() ==6){
-            System.out.println("vaccinated : ");}
-        grouping_type();}
 
-
-    public void grouping_type(){
-        if( getGroupType() ==1){
-            grouping1(getTmpList(),tmp,getMetricsNum(),  finalList);}
-        else if (getGroupType() == 2){
-            grouping2( tmp, getGroupDay(),  finalList,  getMetricsNum(),  getTmpList());}
-
-        else if ( getGroupType()==3){
-            if (getTmpList().size() % getGroupDay() != 0) {
-                System.out.println("ERROR: Can't divide groups equally!");}
-            grouping3( getTmpList(), finalList , getGroupDay(), getMetricsNum(), tmp);}
-        result_checker();
-    }
-
-    public void displaying_chart(int display_type, LocalDate startDate, LocalDate endDate){
+    // check tabular or chart
+    public void displaying_chart(int display_type){
         if( display_type == 1){
             Display.tabular(startDate,endDate,finalList,cases_list);}
         else if ( display_type == 2){
-            Display.chart(cases_list);
-        }
-
+           Display.chart(cases_list);}
     }
-
-
-
-
-
 }
 
 

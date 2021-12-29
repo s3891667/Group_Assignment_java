@@ -10,12 +10,15 @@ class Display extends Data {
     public Display(ArrayList<Integer> cases_list) {
         super(cases_list);
     }
-
     public static void tabular(LocalDate startDate, LocalDate endDate, List<List<String>> finalList, ArrayList<Integer> cases_list) {
         LocalDate update_date = startDate;
+        // set up a loop break ( while it reaches last date)
         LocalDate breaker = endDate.plusDays(1);
+        //k is used for looping the cases_list
         int k = 0;
+        // counter used for decoration
         int counter = 0;
+        //loop a finalList and update date at the same time
         for (List<String> csv : finalList) {
             if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
                 break;}
@@ -26,14 +29,18 @@ class Display extends Data {
                 else if (csv.toArray().length > 1 && counter == 0){
                     System.out.print("\n---------Tabular Display--------");
                     System.out.println("\n|-------Date ranges------|Cases|");}
+                //print at the beginning of the chart only ( just a decoration purpose)
                 counter += 1;
                 System.out.print("|" + update_date);
                 for (int j = 0; j < csv.toArray().length; j++) {
+                    // update the date continuously
                     update_date = update_date.plusDays(1);
                     if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
                         System.out.println("|______________________________|");
                     }
+                    // this is for the case each date is 1 group
                     while (csv.toArray().length == 1) {
+                        // decorations
                         if (cases_list.get(k) >= 10) {
                             System.out.print(" :  " + cases_list.get(k) + " |");
                         } else if (cases_list.get(k) < 10) {
@@ -48,6 +55,8 @@ class Display extends Data {
                         update_date = update_date.plusDays(1);
                         k += 1;
                         j++;}
+
+                    // date range cases ( 22/3 - 25/3)
                     if (j == csv.toArray().length - 2) {
                         System.out.print(" - " + update_date + " : " + cases_list.get(k) + "  |");
                         k += 1;
