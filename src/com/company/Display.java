@@ -1,16 +1,27 @@
 package com.company;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import java.util.Collections;
 import java.util.List;
 
-class Display extends Data {
+abstract class Display extends Data {
     static String[][] Oxy = new String[24][80];
-    public Display(ArrayList<Integer> cases_list) {
-        super(cases_list);
+
+    public Display(LocalDate startDate, LocalDate endDate, List<List<String>> finalList, ArrayList<Integer> cases_list) {
+        super(startDate, endDate, finalList, cases_list);
     }
-    public static void tabular(LocalDate startDate, LocalDate endDate, List<List<String>> finalList, ArrayList<Integer> cases_list) {
+
+    void draw() {
+
+    }
+}
+
+class tabular extends Display {
+    public tabular(LocalDate startDate, LocalDate endDate, List<List<String>> finalList, ArrayList<Integer> cases_list) {
+        super(startDate, endDate, finalList, cases_list);
+    }
+
+    void draw() {
         LocalDate update_date = startDate;
         // set up a loop break ( while it reaches last date)
         LocalDate breaker = endDate.plusDays(1);
@@ -21,14 +32,15 @@ class Display extends Data {
         //loop a finalList and update date at the same time
         for (List<String> csv : finalList) {
             if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
-                break;}
-            else {
+                break;
+            } else {
                 if (csv.toArray().length == 1 && counter == 0) {
                     System.out.print("\n--Tabular Display--");
-                    System.out.println("\n|Date ranges|Cases|");}
-                else if (csv.toArray().length > 1 && counter == 0){
+                    System.out.println("\n|Date ranges|Cases|");
+                } else if (csv.toArray().length > 1 && counter == 0) {
                     System.out.print("\n---------Tabular Display--------");
-                    System.out.println("\n|-------Date ranges------|Cases|");}
+                    System.out.println("\n|-------Date ranges------|Cases|");
+                }
                 //print at the beginning of the chart only ( just a decoration purpose)
                 counter += 1;
                 System.out.print("|" + update_date);
@@ -54,7 +66,8 @@ class Display extends Data {
                         System.out.print("|" + update_date);
                         update_date = update_date.plusDays(1);
                         k += 1;
-                        j++;}
+                        j++;
+                    }
 
                     // date range cases ( 22/3 - 25/3)
                     if (j == csv.toArray().length - 2) {
@@ -66,9 +79,15 @@ class Display extends Data {
             }
         }
     }
+    }
 
 
-    public static void chart( ArrayList <Integer>cases_list){
+    class chart extends Display{
+    public chart(LocalDate startDate, LocalDate endDate, List<List<String>> finalList, ArrayList<Integer> cases_list) {
+            super(startDate, endDate, finalList, cases_list);
+        }
+
+        void draw(){
         Chart_theme();
         Solving_the_data(cases_list);
         display_chart_data();

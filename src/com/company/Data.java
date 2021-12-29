@@ -25,10 +25,14 @@ public class Data extends Main {
         this.resultType = resultType;
         this.display_type = display_type;}
 
-    public Data(ArrayList<Integer> cases_list) {
+    public Data(LocalDate startDate,LocalDate endDate,List<List<String>> finalList,ArrayList<Integer> cases_list) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.finalList = finalList;
         this.cases_list = cases_list;
-
     }
+
+
 
     public LocalDate getEndDate() {
         return endDate;
@@ -209,11 +213,15 @@ class get_types extends data_display{
 
 
     // check tabular or chart
-    public void displaying_chart(int display_type){
-        if( display_type == 1){
-            Display.tabular(startDate,endDate,finalList,cases_list);}
-        else if ( display_type == 2){
-           Display.chart(cases_list);}
+    public void displaying_chart(int display_type) {
+        Display display;
+        if (display_type == 1) {
+            display = new tabular(startDate, endDate, finalList, cases_list);
+            display.draw();
+        } else if (display_type == 2) {
+            display = new chart(startDate, endDate, finalList, cases_list);
+            display.draw();
+        }
     }
 }
 
