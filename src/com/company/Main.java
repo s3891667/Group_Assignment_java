@@ -81,7 +81,7 @@ public class Main {
                     System.out.println();
 
                     rangeNum=interface_program.Interface_management("A pair of start date and end date(inclusive)","A number of days or weeks from a particular date","A number of days or weeks to a particular date");
-
+                    System.out.println(" Please use date in the format MM/dd/yyyy ");
                     switch (rangeNum) {
                         case 1:
                             String start;
