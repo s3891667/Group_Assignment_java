@@ -6,29 +6,29 @@ import java.util.Scanner;
 import java.util.*;
 
 public class Main {
-    private static LocalDate startDate;
+    private static LocalDate startDate; // receive the start date and the end date to retrieve data
     private static LocalDate endDate;
 
     public static void main(String[] args)  {
         int num;        // data object type (e.g, Country = 1, Continent = 2)
         int rangeNum;   // time range type
         int weekDays;   // the number of days or weeks
+        int selectNum;//
         int groupType;   // number of groups = 1, number of days = 2
-        int groupDay;
-        int selectNum;
-        int metricsNum;
-        int resultType;
-        String line;
-        char user;
+        int groupDay; //
+        int metricsNum;; // column type of data, 1 = infected, 2 = deaths, 3 = vaccinations
+        int resultType; // type to output data, 1 = new total, 2 = up to
+        String line; // read data from csv files
+        char user; // receive Y/N input at the start of the program
         String area = null;
         String[] array;
-        List<List<String>> tmpList = new ArrayList<>();
+        List<List<String>> tmpList = new ArrayList<>(); // processed data storage list
 
         Scanner scanInt = new Scanner(System.in);
         Scanner scanString = new Scanner(System.in);
         Scanner scanMain = new Scanner(System.in);
 
-        List<List<String>> data = new ArrayList<>();
+        List<List<String>> data = new ArrayList<>();// List of data read from csv file
         File file = new File("src\\covid-data.csv");
 
         Interface interface_program = new Interface();
@@ -248,27 +248,27 @@ public class Main {
         }
     }
 
-    public static LocalDate changeFormat(String date) {
+    public static LocalDate changeFormat(String date) { // change the type and pattern of the entered date
         DateTimeFormatter format = DateTimeFormatter.ofPattern("M/d/yyyy");
         return LocalDate.parse(date, format);
     }
 
-    public static boolean validateRange(LocalDate start, LocalDate end, LocalDate date) {
+    public static boolean validateRange(LocalDate start, LocalDate end, LocalDate date) { // checks whether the input date is in the current data
         return start.compareTo(date) <= 0 && end.compareTo(date) >= 0;
     }
 
-    public static List<List<String>> dataProcess(List<List<String>> data, String continent, int num) {
+    public static List<List<String>> dataProcess(List<List<String>> data, String continent, int num) {  // processes data according to the type and returns it
         LocalDate date;
         List<List<String>> tempList = new ArrayList<>();
-        if (num == 1) {
+        if (num == 1) { // if num is 1, the continent is searched
             for (int i = 1; i < data.size(); i++) {
-                date = changeFormat(data.get(i).get(3));
-                if (validateRange(startDate, endDate, date) && data.get(i).get(1).equals(continent)) {
+                date = changeFormat(data.get(i).get(3));  // temporarily save the dates in order from the csv file
+                if (validateRange(startDate, endDate, date) && data.get(i).get(1).equals(continent)) { // Check if the input date corresponds to the csv file
                     List<String> tmp = data.get(i);
                     tempList.add(tmp);
                 }
             }
-        } else if (num == 2) {
+        } else if (num == 2) { // if num is 2, search for a country
             for (int i = 1; i < data.size(); i++) {
                 date = changeFormat(data.get(i).get(3));
                 if (validateRange(startDate, endDate, date) && data.get(i).get(2).equals(continent)) {
@@ -285,9 +285,3 @@ public class Main {
 
     }
 }
-
-
-
-
-
-

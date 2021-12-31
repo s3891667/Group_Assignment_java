@@ -1,4 +1,3 @@
-package com.company;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +24,10 @@ public class Data extends Main {
         this.resultType = resultType;
         this.display_type = display_type;}
 
-    public Data(LocalDate startDate,LocalDate endDate,List<List<String>> finalList,ArrayList<Integer> cases_list) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.finalList = finalList;
+    public Data(ArrayList<Integer> cases_list) {
         this.cases_list = cases_list;
+
     }
-
-
 
     public LocalDate getEndDate() {
         return endDate;
@@ -115,7 +110,7 @@ class data_display extends  Data {
         System.out.print("\nGrouped Data : ");
         return cases_list;
     }
-
+    //no grouping
     public static void grouping1(List<List<String>> tmpList, List<String> tmp, int metricsNum, List<List<String>> finalList) {
         for (List<String> stringList : tmpList) {
             String data = stringList.subList(metricsNum, metricsNum + 1).get(0);
@@ -128,9 +123,11 @@ class data_display extends  Data {
             tmp = new ArrayList<>();
         }
     }
+    //num of groups
     public static void grouping2(List<String> tmp, int groupDay, List<List<String>> finalList, int metricsNum, List<List<String>> tmpList) {
         int elementNum = tmpList.size() / groupDay;
         int remainder = tmpList.size() % groupDay;
+
         for (int i = 0; i < tmpList.size(); i++) {
             String data = tmpList.get(i).subList(metricsNum, metricsNum + 1).get(0);
             if (!data.equals("")) {
@@ -138,22 +135,19 @@ class data_display extends  Data {
             } else {
                 tmp.add("0");
             }
+
             if (tmp.size() == elementNum && finalList.size() < groupDay - remainder) {
-                finalList.add(tmp);
+                finalList.add(new ArrayList<>(tmp));
                 tmp = new ArrayList<>();
-            } else if (tmp.size() == elementNum && finalList.size() >= groupDay - remainder && !tmpList.get(i + 1).subList(metricsNum, metricsNum + 1).get(0).equals("")) {
-                tmp.add(tmpList.get(++i).subList(metricsNum, metricsNum + 1).get(0));
-                finalList.add(tmp);
-                tmp = new ArrayList<>();
-            } else if (tmp.size() == elementNum && finalList.size() >= groupDay - remainder && tmpList.get(i + 1).subList(metricsNum, metricsNum + 1).get(0).equals("")) {
-                tmp.add("0");
-                i++;
-                finalList.add(tmp);
+            } else if (tmp.size() > elementNum && finalList.size() >= groupDay - remainder) {
+                finalList.add(new ArrayList<>(tmp));
                 tmp = new ArrayList<>();
             }
-        }
-    }
 
+        }
+
+    }
+    //num of days
     public static void grouping3( List<List<String>> tmpList,List<List<String>> finalList ,int groupDay, int metricsNum,List<String> tmp){
         int elementNum = tmpList.size() / groupDay;
         for (List<String> strings : tmpList) {
@@ -203,28 +197,23 @@ class get_types extends data_display{
     }
     // lastly is result type ( new_total or up_to)
     public void result_checker(){
-         if(getResultType() ==1){
-             System.out.println(new_total(finalList,total, cases_list));
-         }
-         else if(getResultType() == 2){
-             System.out.println(up_to(finalList,total, cases_list));
-         }
+        if(getResultType() ==1){
+            System.out.println(new_total(finalList,total, cases_list));
+        }
+        else if(getResultType() == 2){
+            System.out.println(up_to(finalList,total, cases_list));
+        }
     }
 
 
     // check tabular or chart
-    public void displaying_chart(int display_type) {
-        Display display;
-        if (display_type == 1) {
-            display = new tabular(startDate, endDate, finalList, cases_list);
-            display.draw();
-        } else if (display_type == 2) {
-            display = new chart(startDate, endDate, finalList, cases_list);
-            display.draw();
-        }
+    public void displaying_chart(int display_type){
+        if( display_type == 1){
+            Display.tabular(startDate,endDate,finalList,cases_list);}
+        else if ( display_type == 2){
+            Display.chart(cases_list);}
     }
 }
-
 
 
 
