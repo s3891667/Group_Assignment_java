@@ -1,3 +1,5 @@
+package com.company;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,6 @@ public class Data extends Main {
     ArrayList<Integer> cases_list = new ArrayList<>();
     List<List<String>> finalList = new ArrayList<>();
 
-
     public Data(LocalDate startDate,LocalDate endDate, List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType, int display_type) {
         this.startDate = startDate;
         this.endDate = endDate;
@@ -24,10 +25,11 @@ public class Data extends Main {
         this.resultType = resultType;
         this.display_type = display_type;}
 
-    public Data(ArrayList<Integer> cases_list) {
-        this.cases_list = cases_list;
-
-    }
+    public Data(LocalDate startDate,LocalDate endDate,List<List<String>> finalList,ArrayList<Integer> cases_list) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.finalList = finalList;
+        this.cases_list = cases_list;}
 
     public LocalDate getEndDate() {
         return endDate;
@@ -54,12 +56,10 @@ public class Data extends Main {
     }
 
     public int getResultType() {
-        return resultType;
-    }
+        return resultType;}
 
     public LocalDate getStartDate() {
-        return startDate;
-    }
+        return startDate;}
 }
 
 class data_display extends  Data {
@@ -67,7 +67,6 @@ class data_display extends  Data {
     public data_display(LocalDate startDate, LocalDate endDate, List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType, int displaytype) {
         super(startDate, endDate, tmpList, groupType, groupDay, metricsNum, resultType, displaytype);
     }
-
 
     // this will process the data input by the users
     public void dataGroup(List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType) {
@@ -127,7 +126,6 @@ class data_display extends  Data {
     public static void grouping2(List<String> tmp, int groupDay, List<List<String>> finalList, int metricsNum, List<List<String>> tmpList) {
         int elementNum = tmpList.size() / groupDay;
         int remainder = tmpList.size() % groupDay;
-
         for (int i = 0; i < tmpList.size(); i++) {
             String data = tmpList.get(i).subList(metricsNum, metricsNum + 1).get(0);
             if (!data.equals("")) {
@@ -143,10 +141,9 @@ class data_display extends  Data {
                 finalList.add(new ArrayList<>(tmp));
                 tmp = new ArrayList<>();
             }
-
         }
-
     }
+
     //num of days
     public static void grouping3( List<List<String>> tmpList,List<List<String>> finalList ,int groupDay, int metricsNum,List<String> tmp){
         int elementNum = tmpList.size() / groupDay;
@@ -208,10 +205,14 @@ class get_types extends data_display{
 
     // check tabular or chart
     public void displaying_chart(int display_type){
-        if( display_type == 1){
-            Display.tabular(startDate,endDate,finalList,cases_list);}
-        else if ( display_type == 2){
-            Display.chart(cases_list);}
+        Display display;
+        if (display_type == 1) {
+            display = new tabular(startDate, endDate, finalList, cases_list);
+            display.draw();
+        } else if (display_type == 2) {
+            display = new chart(startDate, endDate, finalList, cases_list);
+            display.draw();
+        }
     }
 }
 

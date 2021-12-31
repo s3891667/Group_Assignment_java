@@ -8,11 +8,10 @@ abstract class Display extends Data {
     static String[][] Oxy = new String[24][80];
 
     public Display(LocalDate startDate, LocalDate endDate, List<List<String>> finalList, ArrayList<Integer> cases_list) {
-        super(startDate, endDate, finalList, cases_list);
-    }
+        super(startDate, endDate, finalList, cases_list);}
 
+    //empty method to be overridden.
     void draw() {
-
     }
 }
 
@@ -21,6 +20,7 @@ class tabular extends Display {
         super(startDate, endDate, finalList, cases_list);
     }
 
+    @Override
     void draw() {
         LocalDate update_date = startDate;
         // set up a loop break ( while it reaches last date)
@@ -87,6 +87,7 @@ class tabular extends Display {
             super(startDate, endDate, finalList, cases_list);
         }
 
+        @Override
         void draw(){
         Chart_theme();
         Solving_the_data(cases_list);

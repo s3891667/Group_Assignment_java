@@ -20,7 +20,7 @@ public class Main {
         int resultType; // type to output data, 1 = new total, 2 = up to
         String line; // read data from csv files
         char user; // receive Y/N input at the start of the program
-        String area = null;
+        String area = null;//area represent the country and continent
         String[] array;
         List<List<String>> tmpList = new ArrayList<>(); // processed data storage list
 
@@ -29,7 +29,7 @@ public class Main {
         Scanner scanMain = new Scanner(System.in);
 
         List<List<String>> data = new ArrayList<>();// List of data read from csv file
-        File file = new File("src\\covid-data.csv");
+        File file = new File("covid-data.csv");
 
         Interface interface_program = new Interface();
 
@@ -73,8 +73,10 @@ public class Main {
                     num=interface_program.Interface_management("Continent","Country",null);
                     if (num == 1) {
                         area=interface_program.Enter_name("Continent");
+
                     } else if (num == 2) {
                         area=interface_program.Enter_name("Country");
+
                     }
                     System.out.println();
 
@@ -171,6 +173,7 @@ public class Main {
                             resultType=interface_program.Interface_management("New Total","Up To",null);
 
                             tmpList = dataProcess(data, area, num);
+                            System.out.println(tmpList);
 
                             displaytype=interface_program.Interface_management("Tabular","Chart",null);
                             passing_value(groupType, groupDay, metricsNum, resultType, displaytype, tmpList);
@@ -281,7 +284,7 @@ public class Main {
 
     public static void passing_value(int groupType,int groupDay,int metricsNum,int resultType,int displaytype, List<List<String>> tmpList ){
         data_display data = new data_display(startDate,endDate,tmpList,groupType,groupDay,metricsNum,resultType,displaytype);
-        data.dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
+        data.dataGroup(tmpList, groupType, groupDay, metricsNum, resultType); //passing the data to the processor
 
     }
 }
