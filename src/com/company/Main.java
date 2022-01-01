@@ -10,13 +10,13 @@ public class Main {
     private static LocalDate endDate;
 
     public static void main(String[] args)  {
-        int num;        // data object type (e.g, Country = 1, Continent = 2)
+        int num;// data object type (e.g, Country = 1, Continent = 2)
         int rangeNum;   // time range type
         int weekDays;   // the number of days or weeks
         int selectNum;//
         int groupType;   // number of groups = 1, number of days = 2
         int groupDay; //
-        int metricsNum;; // column type of data, 1 = infected, 2 = deaths, 3 = vaccinations
+        int metricsNum; // column type of data, 1 = infected, 2 = deaths, 3 = vaccinations
         int resultType; // type to output data, 1 = new total, 2 = up to
         String line; // read data from csv files
         char user; // receive Y/N input at the start of the program
@@ -39,9 +39,8 @@ public class Main {
             BufferedReader br = new BufferedReader(fileName);
 
             while ((line = br.readLine()) != null) {
-
                 array = line.split(",");
-                List<String> temp = Arrays.asList(array);
+                List<String> temp  = Arrays.asList(array);
                 data.add(temp);
 
             }
@@ -70,18 +69,16 @@ public class Main {
                     System.out.println("|____________________________________________________________________________________________________|");
 
                     interface_program.Intro_interface();
-                    num=interface_program.Interface_management("Continent","Country",null);
+                    num = interface_program.Interface_management("Continent","Country",null);
+
                     if (num == 1) {
-                        area=interface_program.Enter_name("Continent");
-
+                        area = interface_program.Enter_name("Continent");
                     } else if (num == 2) {
-                        area=interface_program.Enter_name("Country");
-
+                        area = interface_program.Enter_name("Country");
                     }
                     System.out.println();
-
                     rangeNum=interface_program.Interface_management("A pair of start date and end date(inclusive)","A number of days or weeks from a particular date","A number of days or weeks to a particular date");
-
+                    System.out.println(" Please use date in the format MM/dd/yyyy ");
                     switch (rangeNum) {
                         case 1:
                             String start;
@@ -116,7 +113,7 @@ public class Main {
 
                             resultType=interface_program.Interface_management("New Total","Up To",null);
 
-                            tmpList = dataProcess(data, area, num);
+                            tmpList = dataProcess(data, area);
 
                             int displaytype = interface_program.Interface_management("Tabular","Chart",null);
                             passing_value(groupType, groupDay, metricsNum, resultType, displaytype, tmpList);
@@ -172,7 +169,7 @@ public class Main {
 
                             resultType=interface_program.Interface_management("New Total","Up To",null);
 
-                            tmpList = dataProcess(data, area, num);
+                            tmpList = dataProcess(data, area);
                             System.out.println(tmpList);
 
                             displaytype=interface_program.Interface_management("Tabular","Chart",null);
@@ -228,7 +225,7 @@ public class Main {
 
                             resultType=interface_program.Interface_management("New Total","Up To",null);
 
-                            tmpList = dataProcess(data, area, num);
+                            tmpList = dataProcess(data, area);
 
                             displaytype=interface_program.Interface_management("Tabular","Chart",null);
                             passing_value(groupType, groupDay, metricsNum, resultType, displaytype, tmpList);
@@ -260,27 +257,18 @@ public class Main {
         return start.compareTo(date) <= 0 && end.compareTo(date) >= 0;
     }
 
-    public static List<List<String>> dataProcess(List<List<String>> data, String continent, int num) {  // processes data according to the type and returns it
+    public static List<List<String>> dataProcess(List<List<String>> data, String area) {  // processes data according to the type and returns it
         LocalDate date;
         List<List<String>> tempList = new ArrayList<>();
-        if (num == 1) { // if num is 1, the continent is searched
-            for (int i = 1; i < data.size(); i++) {
-                date = changeFormat(data.get(i).get(3));  // temporarily save the dates in order from the csv file
-                if (validateRange(startDate, endDate, date) && data.get(i).get(1).equals(continent)) { // Check if the input date corresponds to the csv file
+        for (int i = 1; i < data.size(); i++) {
+                date = changeFormat(data.get(i).get(3));// temporarily save the dates in order from the csv file
+                if (validateRange(startDate, endDate, date) && data.get(i).get(2).equals(area)) {// Check if the input date corresponds to the csv file
                     List<String> tmp = data.get(i);
                     tempList.add(tmp);
                 }
             }
-        } else if (num == 2) { // if num is 2, search for a country
-            for (int i = 1; i < data.size(); i++) {
-                date = changeFormat(data.get(i).get(3));
-                if (validateRange(startDate, endDate, date) && data.get(i).get(2).equals(continent)) {
-                    List<String> tmp = data.get(i);
-                    tempList.add(tmp);
-                }
-            }
-        }
-        return tempList;}
+        return tempList;
+    }
 
     public static void passing_value(int groupType,int groupDay,int metricsNum,int resultType,int displaytype, List<List<String>> tmpList ){
         data_display data = new data_display(startDate,endDate,tmpList,groupType,groupDay,metricsNum,resultType,displaytype);

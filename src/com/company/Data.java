@@ -8,7 +8,7 @@ public class Data extends Main {
     protected LocalDate startDate;
     protected LocalDate endDate;
     private  List<List<String>> tmpList;
-    private  int groupType, groupDay, metricsNum, resultType,display_type;
+    private int groupType, groupDay, metricsNum, resultType,display_type;
     int total = 0;
     List<String> tmp = new ArrayList<>();
 
@@ -29,7 +29,8 @@ public class Data extends Main {
         this.startDate = startDate;
         this.endDate = endDate;
         this.finalList = finalList;
-        this.cases_list = cases_list;}
+        this.cases_list = cases_list;
+    }
 
     public LocalDate getEndDate() {
         return endDate;
@@ -72,7 +73,8 @@ class data_display extends  Data {
     public void dataGroup(List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType) {
         get_types processing = new get_types( getStartDate(), getEndDate(),  tmpList,  groupType,  groupDay,  metricsNum, resultType,getDisplay_type());
         processing.check_metrics();
-        processing.displaying_chart(getDisplay_type());}
+        processing.displaying_chart(getDisplay_type());
+    }
 
 
 
@@ -118,7 +120,7 @@ class data_display extends  Data {
             } else {
                 tmp.add("0");
             }
-            finalList.add(tmp);
+            finalList.add(new ArrayList<>(tmp));
             tmp = new ArrayList<>();
         }
     }
@@ -126,14 +128,13 @@ class data_display extends  Data {
     public static void grouping2(List<String> tmp, int groupDay, List<List<String>> finalList, int metricsNum, List<List<String>> tmpList) {
         int elementNum = tmpList.size() / groupDay;
         int remainder = tmpList.size() % groupDay;
-        for (int i = 0; i < tmpList.size(); i++) {
-            String data = tmpList.get(i).subList(metricsNum, metricsNum + 1).get(0);
+        for (List<String> strings : tmpList) {
+            String data = strings.subList(metricsNum, metricsNum + 1).get(0);
             if (!data.equals("")) {
                 tmp.add(data);
             } else {
                 tmp.add("0");
             }
-
             if (tmp.size() == elementNum && finalList.size() < groupDay - remainder) {
                 finalList.add(new ArrayList<>(tmp));
                 tmp = new ArrayList<>();
@@ -178,6 +179,8 @@ class get_types extends data_display{
         else if (getMetricsNum() ==6){
             System.out.println("vaccinated : ");}
         grouping_type();}
+
+
     // second is grouping type
     public void grouping_type(){
         if( getGroupType() ==1){
@@ -192,6 +195,7 @@ class get_types extends data_display{
             grouping3( getTmpList(), finalList , getGroupDay(), getMetricsNum(), tmp);}
         result_checker();
     }
+
     // lastly is result type ( new_total or up_to)
     public void result_checker(){
         if(getResultType() ==1){

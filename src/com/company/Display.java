@@ -32,15 +32,14 @@ class tabular extends Display {
         //loop a finalList and update date at the same time
         for (List<String> csv : finalList) {
             if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
-                break;
-            } else {
+                break;}
+            else {
                 if (csv.toArray().length == 1 && counter == 0) {
                     System.out.print("\n--Tabular Display--");
-                    System.out.println("\n|Date ranges|Cases|");
-                } else if (csv.toArray().length > 1 && counter == 0) {
+                    System.out.println("\n|Date ranges|Cases|");}
+                else if (csv.toArray().length > 1 && counter == 0) {
                     System.out.print("\n---------Tabular Display--------");
-                    System.out.println("\n|-------Date ranges------|Cases|");
-                }
+                    System.out.println("\n|-------Date ranges------|Cases|");}
                 //print at the beginning of the chart only ( just a decoration purpose)
                 counter += 1;
                 System.out.print("|" + update_date);
@@ -61,14 +60,11 @@ class tabular extends Display {
                         System.out.println();
                         if (update_date.getDayOfMonth() == breaker.getDayOfMonth()) {
                             System.out.print("|_________________|");
-                            break;
-                        }
+                            break;}
                         System.out.print("|" + update_date);
                         update_date = update_date.plusDays(1);
                         k += 1;
-                        j++;
-                    }
-
+                        j++;}
                     // date range cases ( 22/3 - 25/3)
                     if (j == csv.toArray().length - 2) {
                         System.out.print(" - " + update_date + " : " + cases_list.get(k) + "  |");
@@ -79,7 +75,7 @@ class tabular extends Display {
             }
         }
     }
-    }
+}
 
 
     class chart extends Display{
