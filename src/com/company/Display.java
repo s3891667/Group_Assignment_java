@@ -78,7 +78,7 @@ class tabular extends Display {
     }
 }
 
-    // create chart display
+    // create chart display by using printing out data stored in Oxy 2D array
     class chart extends Display{
     public chart(LocalDate startDate, LocalDate endDate, List<List<String>> finalList, ArrayList<Integer> cases_list) {
             super(startDate, endDate, finalList, cases_list);
@@ -107,7 +107,7 @@ class tabular extends Display {
             }
         }
     }
-    // this method is used to output the point in chart
+    // this method is used to output the point in chart by looping through
     public static void display_chart_data() {
         for (int x = 0; x < 24; x++) {
             for (int y = 0; y < 80; y++) {
@@ -124,7 +124,7 @@ class tabular extends Display {
         // Find the min value and max value for the range between each value.
         double max = Collections.max(cases_list);
         double min = Collections.min(cases_list);
-        // Count on the value range.
+        // Count on the value range, the range will change according to the data received.
         double value_range = 22 / (max -min +1) ;
         int distance_between_column = 78 / (cases_list.toArray().length);
         int y;
