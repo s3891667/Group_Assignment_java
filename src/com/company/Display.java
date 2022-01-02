@@ -15,6 +15,7 @@ abstract class Display extends Data {
     }
 }
 
+       // create tabular class.
 class tabular extends Display {
     public tabular(LocalDate startDate, LocalDate endDate, List<List<String>> finalList, ArrayList<Integer> cases_list) {
         super(startDate, endDate, finalList, cases_list);
@@ -77,7 +78,7 @@ class tabular extends Display {
     }
 }
 
-
+    // create chart display
     class chart extends Display{
     public chart(LocalDate startDate, LocalDate endDate, List<List<String>> finalList, ArrayList<Integer> cases_list) {
             super(startDate, endDate, finalList, cases_list);
@@ -90,7 +91,7 @@ class tabular extends Display {
         display_chart_data();
     }
 
-
+    // create the chart_theme.
     public static void Chart_theme() {
         for (int x = 0; x < 24; x++) {
             for (int y = 0; y < 80; y++) {
@@ -106,7 +107,7 @@ class tabular extends Display {
             }
         }
     }
-
+    // this method is used to output the point in chart
     public static void display_chart_data() {
         for (int x = 0; x < 24; x++) {
             for (int y = 0; y < 80; y++) {
@@ -117,15 +118,18 @@ class tabular extends Display {
     }
 
 
-    // Display Data
+    // Solving the data for presenting the point in the chart
     public static void Solving_the_data(ArrayList<Integer> cases_list) {
         Collections.sort(cases_list);
+        // Find the min value and max value for the range between each value.
         double max = Collections.max(cases_list);
         double min = Collections.min(cases_list);
+        // Count on the value range.
         double value_range = 22 / (max -min +1) ;
         int distance_between_column = 78 / (cases_list.toArray().length);
         int y;
         int x = 1;
+        // For loop to identify the point and present it.
         for (int k = 0; k < cases_list.toArray().length; k++) {
             if (cases_list.get(k) == min) {
                 Oxy[22][x] = "*";}
