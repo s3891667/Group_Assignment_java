@@ -114,6 +114,10 @@ public class Main {
                             resultType=interface_program.Interface_management("New Total","Up To",null);
 
                             tmpList = dataProcess(data, area);
+                            if(tmpList.size() ==0){
+                                 System.out.println("Wrong Continent or Country input, Please enter again!");
+                                break mainLoop;
+                            }
 
                             int displaytype = interface_program.Interface_management("Tabular","Chart",null);
                             passing_value(groupType, groupDay, metricsNum, resultType, displaytype, tmpList);
@@ -170,7 +174,10 @@ public class Main {
                             resultType=interface_program.Interface_management("New Total","Up To",null);
 
                             tmpList = dataProcess(data, area);
-                            System.out.println(tmpList);
+                            if(tmpList.size() ==0){
+                                 System.out.println("Wrong Continent or Country input, Please enter again!");
+                                break mainLoop;
+                            }
 
                             displaytype=interface_program.Interface_management("Tabular","Chart",null);
                             passing_value(groupType, groupDay, metricsNum, resultType, displaytype, tmpList);
@@ -226,6 +233,10 @@ public class Main {
                             resultType=interface_program.Interface_management("New Total","Up To",null);
 
                             tmpList = dataProcess(data, area);
+                            if(tmpList.size() ==0){
+                                System.out.println("Wrong Continent or Country input, Please enter again!");
+                                break mainLoop;
+                            }
 
                             displaytype=interface_program.Interface_management("Tabular","Chart",null);
                             passing_value(groupType, groupDay, metricsNum, resultType, displaytype, tmpList);
