@@ -1,0 +1,290 @@
+Index: src/com/company/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.io.*;\r\nimport java.time.LocalDate;\r\nimport java.time.format.DateTimeFormatter;\r\nimport java.util.ArrayList;\r\nimport java.util.Arrays;\r\nimport java.util.List;\r\nimport java.util.Scanner;\r\n\r\npublic class Main {\r\n    private static LocalDate startDate;\r\n    private static LocalDate endDate;\r\n\r\n    public static void main(String[] args) {\r\n        int num;        // data object type (e.g, Country = 1, Continent = 2)\r\n        int rangeNum;   // time range type\r\n        int weekDays;   // the number of days or weeks\r\n        int groupType;   // number of groups = 1, number of days = 2\r\n        int groupDay;\r\n        int selectNum;\r\n        int metricsNum;\r\n        int resultType;\r\n        String line;\r\n        char user;\r\n\r\n        List<List<String>> printList = new ArrayList<>();\r\n        List<List<String>> tmpList = new ArrayList<>();\r\n\r\n        Scanner scanInt = new Scanner(System.in);\r\n        Scanner scanString = new Scanner(System.in);\r\n\r\n        List<List<String>> data = new ArrayList<>();\r\n        File file = new File(\"src\\\\covid-data.csv\");\r\n\r\n\r\n        try {       // get data from covid-data.csv\r\n            FileReader fileName = new FileReader(file.getCanonicalPath());\r\n            BufferedReader br = new BufferedReader(fileName);\r\n\r\n            while ((line = br.readLine()) != null) {\r\n\r\n                String[] array = line.split(\",\");\r\n                List<String> temp = Arrays.asList(array);\r\n                data.add(temp);\r\n\r\n            }\r\n            br.close();\r\n        } catch (IOException e) {\r\n            e.printStackTrace();\r\n        }\r\n\r\n        while (true) {\r\n            startDate = null;   // initialize Date variable when loop begins\r\n            endDate = null;\r\n            printList.clear();\r\n            tmpList.clear();\r\n            rangeNum = 0;\r\n            selectNum = 0;\r\n            groupDay = 0;\r\n            metricsNum = 0;\r\n\r\n            System.out.print(\"Do you want to start the program? (Y/N) \");\r\n\r\n            user = scanString.nextLine().charAt(0);\r\n\r\n            if (user == 'Y') {\r\n                System.out.print(\"Please choose number 1 to input Continent, number 2 to input Country: \");\r\n                num = scanInt.nextInt();\r\n\r\n                System.out.println(\"\\nPlease choose the time range type\");\r\n                System.out.println(\"Choose 1 for A pair of start date and end date(inclusive)\");\r\n                System.out.println(\"Choose 2 for A number of days or weeks from a particular date\");\r\n                System.out.println(\"Choose 3 for A number of days or weeks to a particular date\");\r\n\r\n                rangeNum = scanInt.nextInt();\r\n\r\n                if (rangeNum == 1) {\r\n                    String start;\r\n                    String end;\r\n\r\n                    System.out.println(\"\\nStart date: \");\r\n                    start = scanString.nextLine();\r\n\r\n                    System.out.println(\"End date: \");\r\n                    end = scanString.nextLine();\r\n\r\n                    startDate = changeFormat(start);\r\n                    endDate = changeFormat(end);\r\n\r\n                } else if (rangeNum == 2) {\r\n                    String start;\r\n\r\n                    System.out.println(\"\\nEnter 1 for days, 2 for weeks: \");\r\n                    selectNum = scanInt.nextInt();\r\n\r\n                    if (selectNum == 1) {\r\n                        System.out.println(\"\\nStart date: \");\r\n                        start = scanString.nextLine();\r\n\r\n                        System.out.println(\"A number of days: \");\r\n                        weekDays = scanInt.nextInt();\r\n\r\n                        startDate = changeFormat(start);\r\n                        endDate = changeFormat(start).plusDays(weekDays);\r\n\r\n                    } else if (selectNum == 2) {\r\n                        System.out.println(\"\\nStart date: \");\r\n                        start = scanString.nextLine();\r\n\r\n                        System.out.println(\"A number of weeks: \");\r\n                        weekDays = scanInt.nextInt();\r\n\r\n                        startDate = changeFormat(start);\r\n                        endDate = changeFormat(start).plusWeeks(weekDays);\r\n\r\n                    }\r\n\r\n\r\n                } else if (rangeNum == 3) {\r\n                    String start;\r\n\r\n                    System.out.println(\"\\nEnter 1 for days, 2 for weeks: \");\r\n                    selectNum = scanInt.nextInt();\r\n\r\n                    if (selectNum == 1) {\r\n                        System.out.println(\"\\nStart date: \");\r\n                        start = scanString.nextLine();\r\n\r\n                        System.out.println(\"A number of days: \");\r\n                        weekDays = scanInt.nextInt();\r\n\r\n                        endDate = changeFormat(start);\r\n                        startDate = changeFormat(start).minusDays(weekDays);\r\n\r\n                    } else if (selectNum == 2) {\r\n                        System.out.println(\"\\nStart date: \");\r\n                        start = scanString.nextLine();\r\n\r\n                        System.out.println(\"A number of weeks: \");\r\n                        weekDays = scanInt.nextInt();\r\n\r\n                        endDate = changeFormat(start);\r\n                        startDate = changeFormat(start).minusWeeks(weekDays);\r\n\r\n                    }\r\n\r\n                }\r\n\r\n                System.out.println(\"\\nChoose 1 for divide data into number of groups, 2 for number of days: \");\r\n                groupType = scanInt.nextInt();\r\n\r\n\r\n                if (groupType == 1) {\r\n                    System.out.println(\"Please input a number of groups: \");\r\n                    groupDay = scanInt.nextInt();\r\n                } else if (groupType == 2) {\r\n                    System.out.println(\"Please input a number of days: \");\r\n                    groupDay = scanInt.nextInt();\r\n                }\r\n\r\n                System.out.println(\"\\nChoose 1 for positive cases, 2 for deaths, 3 for people vaccinated\");\r\n                metricsNum = scanInt.nextInt() + 3;\r\n\r\n                System.out.println(\"\\nChoose 1 for New Total, 2 for Up To \");\r\n                resultType = scanInt.nextInt();\r\n\r\n                if (num == 1) {\r\n                    String continent;\r\n\r\n                    System.out.print(\"\\nPlease input the Continent: \");\r\n                    continent = scanString.nextLine();\r\n\r\n                    tmpList = dataProcess(data, continent, num);\r\n\r\n                    printList = dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);\r\n\r\n                } else if (num == 2) {\r\n                    String country;\r\n\r\n                    System.out.print(\"\\nPlease input the Country: \");\r\n                    country = scanString.nextLine();\r\n\r\n                    tmpList = dataProcess(data, country, num);\r\n\r\n                    printList = dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);\r\n\r\n                }\r\n\r\n            } else if (user == 'N') {\r\n                System.out.println(\"\\nThank you for using our program!\\n\");\r\n                break;\r\n            } else System.out.println(\"Please enter again\");\r\n\r\n        }\r\n    }\r\n\r\n    public static LocalDate changeFormat(String date) {\r\n        DateTimeFormatter format = DateTimeFormatter.ofPattern(\"M/d/yyyy\");\r\n        return LocalDate.parse(date, format);\r\n    }\r\n\r\n    public static boolean validateRange(LocalDate start, LocalDate end, LocalDate date) {\r\n        return start.compareTo(date) <= 0 && end.compareTo(date) >= 0;\r\n    }\r\n\r\n    public static List<List<String>> dataProcess(List<List<String>> data, String continent, int num) {\r\n        LocalDate date;\r\n        List<List<String>> tempList = new ArrayList<>();\r\n\r\n        if (num == 1) {\r\n            for (int i = 1; i < data.size(); i++) {\r\n                date = changeFormat(data.get(i).get(3));\r\n                if (validateRange(startDate, endDate, date) && data.get(i).get(1).equals(continent)) {\r\n                    List<String> tmp = data.get(i);\r\n                    tempList.add(tmp);\r\n                }\r\n            }\r\n\r\n        } else if (num == 2) {\r\n            for (int i = 1; i < data.size(); i++) {\r\n                date = changeFormat(data.get(i).get(3));\r\n                if (validateRange(startDate, endDate, date) && data.get(i).get(2).equals(continent)) {\r\n                    List<String> tmp = data.get(i);\r\n                    tempList.add(tmp);\r\n                }\r\n            }\r\n        }\r\n\r\n        return tempList;\r\n    }\r\n\r\n    public static List<List<String>> dataGroup(List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType) {\r\n        List<String> tmp = new ArrayList<>();\r\n        List<List<String>> finalList = new ArrayList<>();\r\n\r\n        if (groupType == 1) {\r\n            int elementNum = tmpList.size() / groupDay;\r\n            int remainder = tmpList.size() % groupDay;\r\n\r\n            for (int i = 0; i < tmpList.size(); i++) {\r\n                String data = tmpList.get(i).subList(metricsNum, metricsNum + 1).get(0);\r\n\r\n                if (!data.equals(\"\")) {\r\n                    tmp.add(data);\r\n                } else {\r\n                    tmp.add(\"0\");\r\n                }\r\n\r\n                if (tmp.size() == elementNum && finalList.size() < groupDay - remainder) {\r\n                    finalList.add(tmp);\r\n                    tmp = new ArrayList<>();\r\n                } else if (tmp.size() == elementNum && finalList.size() >= groupDay - remainder && !tmpList.get(i + 1).subList(metricsNum, metricsNum + 1).get(0).equals(\"\")) {\r\n                    tmp.add(tmpList.get(++i).subList(metricsNum, metricsNum + 1).get(0));\r\n                    finalList.add(tmp);\r\n                    tmp = new ArrayList<>();\r\n                } else if (tmp.size() == elementNum && finalList.size() >= groupDay - remainder && tmpList.get(i+1).subList(metricsNum, metricsNum + 1).get(0).equals(\"\")){\r\n                    tmp.add(\"0\");\r\n                    i++;\r\n                    finalList.add(tmp);\r\n                    tmp = new ArrayList<>();\r\n\r\n                }\r\n\r\n            }\r\n\r\n            if (metricsNum == 4) {\r\n                if(resultType == 1) {\r\n                    for (List<String> string : finalList) {\r\n                        int total = 0;\r\n                        for (String num : string) {\r\n                            int number = Integer.parseInt(num);\r\n                            if(number != 0) {\r\n                                total += number;\r\n                            }\r\n                        }\r\n                        System.out.print(string + \"  \");\r\n                        string.clear();\r\n                        string.add(Integer.toString(total));\r\n                        System.out.println(string);\r\n                    }\r\n                }\r\n                else if(resultType == 2){\r\n                    int total = 0;\r\n                    for (List<String> string : finalList) {\r\n                        for (String num : string) {\r\n                            int number = Integer.parseInt(num);\r\n                            if(number != 0) {\r\n                                total += number;\r\n                            }\r\n                        }\r\n                    }\r\n\r\n                    System.out.println(\"Death total: \" + total);\r\n                }\r\n            }\r\n\r\n            else if (metricsNum == 5 || metricsNum == 6) {\r\n                if(resultType == 1) {               // calculate New total\r\n                    if(metricsNum == 5) {\r\n                        for (List<String> string : finalList) {\r\n                            int total = 0;\r\n                            for (String num : string) {\r\n                                int number = Integer.parseInt(num);\r\n                                if(number != 0) {\r\n                                    total += number;\r\n                                }\r\n                            }\r\n                            System.out.print(string + \"  \");\r\n                            string.clear();\r\n                            string.add(Integer.toString(total));\r\n                            System.out.println(string);\r\n                        }\r\n                    }\r\n                    else {\r\n                        int vaccinatedNum = 0;\r\n\r\n                        for (List<String> string : finalList) {\r\n                            int total = 0;\r\n                            for (String num : string) {\r\n                                int nowVaccinated = Integer.parseInt(num);\r\n                                if(nowVaccinated != 0) {\r\n                                    total += nowVaccinated - vaccinatedNum;\r\n                                    vaccinatedNum = nowVaccinated;\r\n                                }\r\n                            }\r\n                            System.out.print(string + \"  \");\r\n                            string.clear();\r\n                            string.add(Integer.toString(total));\r\n                            System.out.println(string);\r\n                        }\r\n                    }\r\n                }\r\n\r\n                else if(resultType == 2) {          // calculate from beginning up to last group\r\n                    if(metricsNum == 5) {\r\n                        int total = 0;\r\n\r\n                        for (List<String> string : finalList) {\r\n                            for (String num : string) {\r\n                                int number = Integer.parseInt(num);\r\n                                if(number != 0) {\r\n                                    total += number;\r\n                                }\r\n                            }\r\n                        }\r\n\r\n                        System.out.println(\"Death total: \" + total);\r\n                    }\r\n\r\n                    else {\r\n                        int vaccinatedNum = 0;\r\n                        int total = 0;\r\n\r\n                        for (List<String> string : finalList) {\r\n                            for (String num : string) {\r\n                                int nowVaccinated = Integer.parseInt(num);\r\n                                if(nowVaccinated != 0) {\r\n                                    total += nowVaccinated - vaccinatedNum;\r\n                                    vaccinatedNum = nowVaccinated;\r\n                                }\r\n                            }\r\n                        }\r\n\r\n                        System.out.println(\"Vaccinated total: \" + total);\r\n                    }\r\n\r\n                }\r\n\r\n            }\r\n        }\r\n        else if (groupType == 2) {\r\n\r\n            if(tmpList.size() % groupDay != 0) {\r\n                System.out.println(\"ERROR: Can't divide groups equally!\");\r\n            }\r\n\r\n            else {\r\n                for (List<String> strings : tmpList) {\r\n                    tmp.add(strings.subList(metricsNum, metricsNum+1).get(0));\r\n\r\n                    if (tmp.size() == groupDay) {\r\n                        finalList.add(tmp);\r\n                        tmp = new ArrayList<>();\r\n                    }\r\n                }\r\n            }\r\n        }\r\n        return finalList;\r\n    }\r\n}\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/com/company/Main.java b/src/com/company/Main.java
+--- a/src/com/company/Main.java	(revision e28de72f7fa443afe374c5846858afd3b4e7e559)
++++ b/src/com/company/Main.java	(date 1639842357960)
+@@ -1,10 +1,8 @@
++package com.company;
+ import java.io.*;
+ import java.time.LocalDate;
+ import java.time.format.DateTimeFormatter;
+-import java.util.ArrayList;
+-import java.util.Arrays;
+-import java.util.List;
+-import java.util.Scanner;
++import java.util.*;
+ 
+ public class Main {
+     private static LocalDate startDate;
+@@ -21,6 +19,7 @@
+         int resultType;
+         String line;
+         char user;
++        String area = null;
+ 
+         List<List<String>> printList = new ArrayList<>();
+         List<List<String>> tmpList = new ArrayList<>();
+@@ -65,7 +64,6 @@
+             if (user == 'Y') {
+                 System.out.print("Please choose number 1 to input Continent, number 2 to input Country: ");
+                 num = scanInt.nextInt();
+-
+                 System.out.println("\nPlease choose the time range type");
+                 System.out.println("Choose 1 for A pair of start date and end date(inclusive)");
+                 System.out.println("Choose 2 for A number of days or weeks from a particular date");
+@@ -145,14 +143,16 @@
+ 
+                 }
+ 
+-                System.out.println("\nChoose 1 for divide data into number of groups, 2 for number of days: ");
++                System.out.println("\nChoose 1 for no grouping, Choose 2 for divide data into number of groups, 3 for number of days: ");
+                 groupType = scanInt.nextInt();
+ 
+-
+-                if (groupType == 1) {
++                if ( groupType ==1){
++                    System.out.println();
++                }
++                else if (groupType == 2) {
+                     System.out.println("Please input a number of groups: ");
+                     groupDay = scanInt.nextInt();
+-                } else if (groupType == 2) {
++                } else if (groupType == 3) {
+                     System.out.println("Please input a number of days: ");
+                     groupDay = scanInt.nextInt();
+                 }
+@@ -164,24 +164,22 @@
+                 resultType = scanInt.nextInt();
+ 
+                 if (num == 1) {
+-                    String continent;
+ 
+                     System.out.print("\nPlease input the Continent: ");
+-                    continent = scanString.nextLine();
++                    area = scanString.nextLine();
+ 
+-                    tmpList = dataProcess(data, continent, num);
++                    tmpList = dataProcess(data, area, num);
+ 
+-                    printList = dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
++                    dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
+ 
+                 } else if (num == 2) {
+-                    String country;
+ 
+                     System.out.print("\nPlease input the Country: ");
+-                    country = scanString.nextLine();
++                    area = scanString.nextLine();
+ 
+-                    tmpList = dataProcess(data, country, num);
++                    tmpList = dataProcess(data, area, num);
+ 
+-                    printList = dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
++                    dataGroup(tmpList, groupType, groupDay, metricsNum, resultType);
+ 
+                 }
+ 
+@@ -211,8 +209,7 @@
+                 date = changeFormat(data.get(i).get(3));
+                 if (validateRange(startDate, endDate, date) && data.get(i).get(1).equals(continent)) {
+                     List<String> tmp = data.get(i);
+-                    tempList.add(tmp);
+-                }
++                    tempList.add(tmp); }
+             }
+ 
+         } else if (num == 2) {
+@@ -231,8 +228,81 @@
+     public static List<List<String>> dataGroup(List<List<String>> tmpList, int groupType, int groupDay, int metricsNum, int resultType) {
+         List<String> tmp = new ArrayList<>();
+         List<List<String>> finalList = new ArrayList<>();
+-
+-        if (groupType == 1) {
++        int total = 0;
++        if (groupType == 1 ){
++            LocalDate update = startDate;
++            for(int i = 0 ; i < tmpList.size(); i++ ){
++                String data = tmpList.get(i).subList(metricsNum, metricsNum + 1).get(0);
++                if (!data.equals("")) {
++                    tmp.add(data);
++                } else {
++                    tmp.add("0");
++                }
++                System.out.println("day " +update.plusDays(i).getDayOfMonth()+" : " + tmp.get(i));
++            }
++            finalList.add(tmp);
++
++            if (metricsNum == 4) {
++                if(resultType == 1) {
++                    System.out.println(finalList);
++                }
++                else if(resultType == 2){
++
++                    for (List<String> string : finalList) {
++                        for (String num : string) {
++                            int number = Integer.parseInt(num);
++                            if(number != 0) {
++                                total += number;
++                            }
++                        }
++                    }
++                    System.out.println("Total infected : " + total);
++                }
++            }
++
++            else if (metricsNum == 5 || metricsNum == 6) {
++                if(resultType == 1) {               // calculate New total
++                    System.out.println(finalList);
++                }
++                else if(resultType == 2) {// calculate from beginning up to last group
++                    if(metricsNum == 5) {
++
++                        for (List<String> string : finalList) {
++                            for (String num : string) {
++                                int number = Integer.parseInt(num);
++                                if(number != 0) {
++                                    total += number;
++                                }
++                            }
++                        }
++                        System.out.println("Death total: " + total);
++                    }
++
++                    else {
++                        int vaccinatedNum = 0;
++
++
++                        for (List<String> string : finalList) {
++                            for (String num : string) {
++                                int nowVaccinated = Integer.parseInt(num);
++                                if(nowVaccinated != 0) {
++                                    total += nowVaccinated - vaccinatedNum;
++                                    vaccinatedNum = nowVaccinated;
++                                }
++                            }
++                        }
++
++                        System.out.println("Vaccinated total: " + total);
++                    }
++
++                }
++
++            }
++
++
++
++        }
++        else if  (groupType == 2) {
+             int elementNum = tmpList.size() / groupDay;
+             int remainder = tmpList.size() % groupDay;
+ 
+@@ -265,7 +335,7 @@
+             if (metricsNum == 4) {
+                 if(resultType == 1) {
+                     for (List<String> string : finalList) {
+-                        int total = 0;
++
+                         for (String num : string) {
+                             int number = Integer.parseInt(num);
+                             if(number != 0) {
+@@ -279,7 +349,7 @@
+                     }
+                 }
+                 else if(resultType == 2){
+-                    int total = 0;
++
+                     for (List<String> string : finalList) {
+                         for (String num : string) {
+                             int number = Integer.parseInt(num);
+@@ -297,7 +367,7 @@
+                 if(resultType == 1) {               // calculate New total
+                     if(metricsNum == 5) {
+                         for (List<String> string : finalList) {
+-                            int total = 0;
++
+                             for (String num : string) {
+                                 int number = Integer.parseInt(num);
+                                 if(number != 0) {
+@@ -314,7 +384,7 @@
+                         int vaccinatedNum = 0;
+ 
+                         for (List<String> string : finalList) {
+-                            int total = 0;
++
+                             for (String num : string) {
+                                 int nowVaccinated = Integer.parseInt(num);
+                                 if(nowVaccinated != 0) {
+@@ -329,10 +399,9 @@
+                         }
+                     }
+                 }
+-
+                 else if(resultType == 2) {          // calculate from beginning up to last group
+                     if(metricsNum == 5) {
+-                        int total = 0;
++
+ 
+                         for (List<String> string : finalList) {
+                             for (String num : string) {
+@@ -348,7 +417,7 @@
+ 
+                     else {
+                         int vaccinatedNum = 0;
+-                        int total = 0;
++
+ 
+                         for (List<String> string : finalList) {
+                             for (String num : string) {
+@@ -367,21 +436,34 @@
+ 
+             }
+         }
+-        else if (groupType == 2) {
+-
++        else if (groupType == 3) {
+             if(tmpList.size() % groupDay != 0) {
+-                System.out.println("ERROR: Can't divide groups equally!");
+-            }
+-
++                System.out.println("ERROR: Can't divide groups equally!"); }
+             else {
+-                for (List<String> strings : tmpList) {
+-                    tmp.add(strings.subList(metricsNum, metricsNum+1).get(0));
++                int elementNum = tmpList.size() / groupDay;
++
++                for (int i = 0; i < tmpList.size(); i++) {
++                    String data = tmpList.get(i).subList(metricsNum, metricsNum + 1).get(0);
+ 
+-                    if (tmp.size() == groupDay) {
++                    if (!data.equals("")) {
++                        tmp.add(data);
++                    } else {
++                        tmp.add("0");
++                    }
++
++                    if (tmp.size() == elementNum) {
+                         finalList.add(tmp);
+                         tmp = new ArrayList<>();
+                     }
++
+                 }
++
++                //else {
++                //                for (List<String> strings : tmpList) {
++                //                    tmp.add(strings.subList(metricsNum, metricsNum+1).get(0));
++                //                    if (tmp.size() == groupDay) {
++                //                        finalList.add(tmp);
++                //                        tmp = new ArrayList<>();
+             }
+         }
+         return finalList;
+@@ -389,4 +471,3 @@
+ }
+ 
+ 
+-
